@@ -17,10 +17,10 @@ export class TermGrid {
     assert(this.height >= 1, 'Height must be positive.')
     assert(this.width >= 1, 'Width must be positive.')
     this.grid = Array(height)
-      .fill([])
+      .fill(null)
       .map(() =>
         Array(width)
-          .fill([])
+          .fill(null)
           .map(() => new Cell('.', 9, 7))
       )
   }
