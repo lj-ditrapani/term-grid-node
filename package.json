@@ -1,0 +1,52 @@
+{
+  "name": "term-grid-ui",
+  "version": "0.0.1",
+  "description": "Simple 2D color character grid abstraction for terminal apps",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "nyc -e .ts mocha -r ts-node/register \"test/**/*_test.{js,ts}\"",
+    "test1": "mocha -r ts-node/register",
+    "fmt": "prettier --parser typescript --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
+    "tlint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "npm run tlint && npm run fmt && npm run fmtjs",
+    "tsc": "tsc",
+    "doc": "typedoc --out doc/ src",
+    "all": "npm run lint && tsc && npm test"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/**"
+    ]
+  },
+  "keywords": [
+    "terminal",
+    "text ui"
+  ],
+  "author": "Jonathan Di Trapani",
+  "repository": "https://github.com/lj-ditrapani/term-grid-node",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^10.12.19",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.4",
+    "@types/mocha": "^5.2.5",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "prettier": "^1.16.1",
+    "source-map-support": "^0.5.10",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typedoc": "^0.14.2"
+  }
+}
