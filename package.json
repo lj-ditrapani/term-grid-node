@@ -2,7 +2,8 @@
   "name": "term-grid-ui",
   "version": "0.0.1",
   "description": "Simple 2D color character grid abstraction for terminal apps",
-  "main": "src/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "nyc -e .ts mocha -r ts-node/register \"test/**/*_test.{js,ts}\"",
     "test1": "mocha -r ts-node/register",
@@ -48,5 +49,8 @@
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "typedoc": "^0.14.2"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }

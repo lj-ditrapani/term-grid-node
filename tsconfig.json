@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "module": "CommonJS",
-    "moduleResolution": "Node",
     "target": "es2016",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -10,13 +10,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "newLine": "lf",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "outDir": "./lib",
+    "newLine": "lf"
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
