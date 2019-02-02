@@ -1,0 +1,11 @@
+const { makeTermGrid } = require('./lib/index.js')
+
+const tg = makeTermGrid(10, 30)
+tg.clear()
+tg.set(1, 1, '%', 3, 2)
+tg.text(2, 2, 'hello', 2, 3)
+tg.draw()
+tg.set(1, 2, '%', 3, 2)
+tg.text(3, 2, 'world', 2, 3)
+tg.draw()
+tg.reset()
