@@ -1,9 +1,9 @@
+- maybe give input callback api?
+- put colors in Colors class instance (separate file)
+- put char codes in CharCodes class instance (separate file)
+- add example/paint to readme w/ sceen capture gif
 - unit tests
   - color input number bounds
-- documentation for missing methods (check)
-  - at least for:
-  - set6Bit
-  - text6Bit
 - review if any color names should be added
 - publish to npm
 - Finish names for box drowing characters

@@ -32,6 +32,10 @@ export class TermGrid {
   private static readonly reset = '\u001b[0m\u001B[?25h'
   private readonly grid: Cell[][]
 
+  /**
+   * For unit testing only.
+   * Use makeTermGrid factory function instead.
+   */
   constructor(
     private readonly height: number,
     private readonly width: number,
@@ -54,7 +58,8 @@ export class TermGrid {
     stdin.setEncoding('utf8')
   }
 
-  /** Clears the screen with the current background color. Literrally prints "\\u001b[2J". */
+  /** Clears the screen with the current background color.
+   * Literrally prints "\\u001b[2J". */
   public clear(): void {
     this.printer.print(TermGrid.clear)
   }
@@ -86,12 +91,13 @@ export class TermGrid {
 
   /**
    * Set a cell in the grid. You must call draw() to see the change in the terminal.
+   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
    *
    * @param y 0-based row index into grid
    * @param x 0-based column index into grid
    * @param c character to set in cell
-   * @param fg foreground color to set in cell
-   * @param bg background color to set in cell
+   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
+   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
    */
   public set(y: number, x: number, c: string, fg: number, bg: number): void {
     assert(c.length === 1, 'set takes a string of length one as c (a character)')
@@ -103,6 +109,18 @@ export class TermGrid {
     cell.bg = bg
   }
 
+  /**
+   * Set a cell in the grid. You must call draw() to see the change in the terminal.
+   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param c character to set in cell
+   * @param fg 6-bit foreground color to set to each cell for the text.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit background color to set to each cell in under text.
+   *           Must be in range [0-63] inclusive.
+   */
   public set6Bit(y: number, x: number, c: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
@@ -113,14 +131,15 @@ export class TermGrid {
   }
 
   /**
-   * Set a sequence of cells of a row in the grid. Effects n cells where n is the length of text.
+   * Set a sequence of cells of a row in the grid.
+   * Effects n cells where n is the length of text.
    * You must call draw() to see the change in the terminal.
    *
    * @param y 0-based row index into grid
    * @param x 0-based column index into grid
    * @param text text to write in row y starting in column x
-   * @param fg foreground color to set to each cell for the text
-   * @param bg background color to set to each cell in under text
+   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
+   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
    */
   public text(y: number, x: number, text: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
@@ -134,6 +153,19 @@ export class TermGrid {
     }
   }
 
+  /**
+   * Set a sequence of cells of a row in the grid.
+   * Effects n cells where n is the length of text.
+   * You must call draw() to see the change in the terminal.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param text text to write in row y starting in column x
+   * @param fg 6-bit foreground color to set to each cell for the text.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit background color to set to each cell in under text.
+   *           Must be in range [0-63] inclusive.
+   */
   public text6Bit(y: number, x: number, text: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
@@ -178,6 +210,12 @@ class Cell {
   constructor(public c: string, public fg: number, public bg: number) {}
 }
 
+/**
+ * Console abstraction
+ * Only exists to make TermGrid more testable.
+ * You should not need to use this.
+ * Use makeTermGrid factory function directly..
+ */
 export class Printer {
   public print(s: string): void {
     console.log(s)
