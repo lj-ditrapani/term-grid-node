@@ -1,6 +1,9 @@
-- maybe give input callback api?
 - put colors in Colors class instance (separate file)
+  - loose js level const
+  - but have ts level readonly
+- I think paint.ts example could be rewritten to only use set & text 8 bit variants
 - put char codes in CharCodes class instance (separate file)
+- maybe give input callback api?
 - add example/paint to readme w/ sceen capture gif
 - unit tests
   - color input number bounds

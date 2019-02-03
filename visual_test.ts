@@ -1,8 +1,6 @@
+import { keyCodes, colors, makeTermGrid } from './lib/index'
+const { darkCyan, mediumCyan, cyan } = colors
 const {
-  makeTermGrid,
-  darkCyan,
-  mediumCyan,
-  cyan,
   arrowUp,
   arrowDown,
   arrowRight,
@@ -10,7 +8,7 @@ const {
   lightShadeBlock,
   mediumShadeBlock,
   darkShadeBlock
-} = require('./lib/index.js')
+} = keyCodes
 
 const tg = makeTermGrid(10, 30)
 
