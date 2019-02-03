@@ -8,6 +8,7 @@ export const makeTermGrid = (height: number, width: number): TermGrid =>
 
 /**
  * Represents the terminal as a 2D grid with 256 colors.
+ * Create an instance with the makeTermGrid factory function.
  *
  * <p>Typical usage might have a setup, a main loop, and a shutdown.
  *
@@ -58,8 +59,10 @@ export class TermGrid {
     stdin.setEncoding('utf8')
   }
 
-  /** Clears the screen with the current background color.
-   * Literrally prints "\\u001b[2J". */
+  /**
+   * Clears the screen with the current background color.
+   * Literrally prints "\\u001b[2J".
+   */
   public clear(): void {
     this.printer.print(TermGrid.clear)
   }
