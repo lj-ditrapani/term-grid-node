@@ -51,6 +51,6 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "term-grid-ui": "^0.1.0"
+    "term-grid-ui": "^0.1.1"
   }
 }

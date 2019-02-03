@@ -3,12 +3,11 @@ import {
   arrowLeft,
   arrowRight,
   arrowUp,
+  enter,
+  esc,
   makeTermGrid,
   TermGrid
 } from 'term-grid-ui'
-
-const esc = '\u001b'
-const enter = '\u000d'
 
 class Paint {
   private mode: 'draw' | 'select-paint' = 'draw'
