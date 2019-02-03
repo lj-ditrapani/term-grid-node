@@ -134,6 +134,18 @@ export class TermGrid {
     }
   }
 
+  public text6Bit(y: number, x: number, text: string, fg: number, bg: number): void {
+    this.checkBounds(y, x)
+    checkColors6Bit(fg, bg)
+    assert(x + text.length <= this.width, 'x + text.length must be <= grid width')
+    let currX = x
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charAt(i)
+      this.set6Bit(y, currX, c, fg, bg)
+      ++currX
+    }
+  }
+
   private checkBounds(y: number, x: number): void {
     assert(y >= 0 && y < this.height, 'y index must by >= 0 and < grid height')
     assert(x >= 0 && x < this.width, 'x index must by >= 0 and < grid width')
