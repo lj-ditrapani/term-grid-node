@@ -1,4 +1,4 @@
-import { keyCodes, colors, makeTermGrid } from './lib/index'
+import { colors, keyCodes, makeTermGrid } from './lib/index'
 const { darkCyan, mediumCyan, cyan } = colors
 const {
   arrowUp,

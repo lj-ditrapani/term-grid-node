@@ -1,13 +1,5 @@
-import {
-  arrowDown,
-  arrowLeft,
-  arrowRight,
-  arrowUp,
-  enter,
-  esc,
-  makeTermGrid,
-  TermGrid
-} from 'term-grid-ui'
+import { keyCodes, makeTermGrid, TermGrid } from 'term-grid-ui'
+const { arrowDown, arrowLeft, arrowRight, arrowUp, enter, esc } = keyCodes
 
 class Paint {
   private mode: 'draw' | 'select-paint' = 'draw'
