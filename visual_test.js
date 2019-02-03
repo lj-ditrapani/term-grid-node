@@ -13,23 +13,28 @@ tg.draw()
 let x = 0
 let y = 0
 process.stdin.on( 'data', function( data ){
-  // console.log(`GOT [${data}] length: ${data.length} <${[...data].map(c => c.charCodeAt(0))}>`)
   tg.set(5, 5, 'Y', darkCyan, mediumCyan)
-  if ( data === '\u006a' ) {
+  const str = [...data].map(c => c.charCodeAt(0).toString(16)).join('')
+  tg.text(8, 0, '............', 0, 0)
+  tg.text(8, 0, str, darkCyan, mediumCyan)
+  if ( data === 'j' || data === '\u001b\u005b\u0042') {
     y += 1
     tg.set(y, x, 'V', cyan, mediumCyan)
   }
-  if ( data === '\u006b' ) {
+  if ( data === 'k' || data === '\u001b\u005b\u0041') {
     y -= 1
     tg.set(y, x, '^', mediumCyan, cyan)
   }
-  if ( data === '\u006c' ) {
+  if ( data === 'l' || data === '\u001b\u005b\u0043') {
     x += 1
     tg.set(y, x, '(', cyan, mediumCyan)
   }
-  if ( data === '\u0068' ) {
+  if ( data === 'h' || data === '\u001b\u005b\u0044') {
     x -= 1
     tg.set(y, x, ')', mediumCyan, cyan)
+  }
+  if ( data === 'x') {
+    tg.set(7, 2, 'X', mediumCyan, cyan)
   }
   tg.draw()
   if ( data === '\u0071' ) {
