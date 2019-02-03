@@ -94,6 +94,7 @@ export class TermGrid {
    * @param bg background color to set in cell
    */
   public set(y: number, x: number, c: string, fg: number, bg: number): void {
+    assert(c.length === 1, 'set takes a string of length one as c (a character)')
     this.checkBounds(y, x)
     checkColors(fg, bg)
     const cell = this.grid[y][x]
@@ -325,3 +326,8 @@ const colorMap6To8 = [
   c332,
   c333
 ]
+
+export const arrowUp = '\u001b\u005b\u0041'
+export const arrowDown = '\u001b\u005b\u0042'
+export const arrowRight = '\u001b\u005b\u0043'
+export const arrowLeft = '\u001b\u005b\u0044'

@@ -1,4 +1,4 @@
-const { makeTermGrid, darkCyan, mediumCyan, cyan } = require('./lib/index.js')
+const { makeTermGrid, darkCyan, mediumCyan, cyan, arrowUp, arrowDown, arrowRight, arrowLeft } = require('./lib/index.js')
 
 const tg = makeTermGrid(10, 30)
 
@@ -17,19 +17,19 @@ process.stdin.on( 'data', function( data ){
   const str = [...data].map(c => c.charCodeAt(0).toString(16)).join('')
   tg.text(8, 0, '............', 0, 0)
   tg.text(8, 0, str, darkCyan, mediumCyan)
-  if ( data === 'j' || data === '\u001b\u005b\u0042') {
+  if ( data === 'j' || data === arrowDown) {
     y += 1
     tg.set(y, x, 'V', cyan, mediumCyan)
   }
-  if ( data === 'k' || data === '\u001b\u005b\u0041') {
+  if ( data === 'k' || data === arrowUp) {
     y -= 1
     tg.set(y, x, '^', mediumCyan, cyan)
   }
-  if ( data === 'l' || data === '\u001b\u005b\u0043') {
+  if ( data === 'l' || data === arrowRight) {
     x += 1
     tg.set(y, x, '(', cyan, mediumCyan)
   }
-  if ( data === 'h' || data === '\u001b\u005b\u0044') {
+  if ( data === 'h' || data === arrowLeft) {
     x -= 1
     tg.set(y, x, ')', mediumCyan, cyan)
   }

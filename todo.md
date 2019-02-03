@@ -1,7 +1,4 @@
-- raw input
-  - fix code to work in raw mode
 - examples
-- ensure char param to set is string of size one
 - names for box drowing characters
   <https://en.wikipedia.org/wiki/Box-drawing_character>
 - unit tests
