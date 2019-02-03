@@ -57,39 +57,50 @@ class Paint {
   }
 
   public draw(): void {
+    const bg = 0b010110
     for (const [y, row] of this.canvas.entries()) {
       for (const [x, color] of row.entries()) {
         this.tg.set6Bit(y, x, ' ', 0, color)
       }
     }
-
     for (const [y, color] of this.colors.entries()) {
+      this.tg.set6Bit(y, 32, ' ', 0, bg)
+      this.tg.set6Bit(y, 33, ' ', 0, color)
       this.tg.set6Bit(y, 34, ' ', 0, color)
     }
     const bgOfPen = this.canvas[this.penPosition[0]][this.penPosition[1]]
     this.tg.set6Bit(this.penPosition[0], this.penPosition[1], '*', 0b111011, bgOfPen)
     const bgOfPaintSelection = this.colors[this.colorIndex]
-    this.tg.set6Bit(this.colorIndex, 34, '*', 0b111011, bgOfPaintSelection)
+    this.tg.set6Bit(this.colorIndex, 33, '<', 0b111011, bgOfPaintSelection)
+    this.tg.set6Bit(this.colorIndex, 34, '>', 0b111011, bgOfPaintSelection)
+    this.tg.text(this.height, 0, ' '.repeat(35), 231, 61)
+    this.tg.text(this.height + 1, 0, 'Arrow keys to move in either mode  ', 231, 61)
+    this.tg.text(this.height + 2, 0, 'Enter: set pixel or exit paint sel ', 231, 61)
+    this.tg.text(this.height + 3, 0, 'Esc: enter paint select mode       ', 231, 61)
     this.tg.draw()
   }
 
   private inDrawMode(data: string): void {
     switch (data) {
+      case 'k':
       case arrowUp:
         if (this.penPosition[0] !== 0) {
           this.penPosition = [this.penPosition[0] - 1, this.penPosition[1]]
         }
         break
+      case 'j':
       case arrowDown:
         if (this.penPosition[0] !== this.height - 1) {
           this.penPosition = [this.penPosition[0] + 1, this.penPosition[1]]
         }
         break
+      case 'l':
       case arrowRight:
         if (this.penPosition[1] !== this.width - 1) {
           this.penPosition = [this.penPosition[0], this.penPosition[1] + 1]
         }
         break
+      case 'h':
       case arrowLeft:
         if (this.penPosition[1] !== 0) {
           this.penPosition = [this.penPosition[0], this.penPosition[1] - 1]
@@ -100,6 +111,7 @@ class Paint {
           this.mode = 'select-paint'
         }
         break
+      case ' ':
       case enter:
         this.canvas[this.penPosition[0]][this.penPosition[1]] = this.colors[
           this.colorIndex
@@ -110,23 +122,25 @@ class Paint {
         process.exit()
         break
       default:
-        console.log("what's this?")
-        console.log(data)
+        break
     }
   }
 
   private inSelectPaintMode(data: string): void {
     switch (data) {
+      case 'k':
       case arrowUp:
         if (this.colorIndex !== 0) {
           this.colorIndex -= 1
         }
         break
+      case 'j':
       case arrowDown:
         if (this.colorIndex !== 15) {
           this.colorIndex += 1
         }
         break
+      case ' ':
       case enter:
         this.mode = 'draw'
         break
@@ -135,15 +149,14 @@ class Paint {
         process.exit()
         break
       default:
-        console.log("what's this?")
-        console.log(data)
+        break
     }
   }
 }
 
 {
-  const tg = makeTermGrid(35, 35)
-  const paint = new Paint(32, 32, tg)
+  const tg = makeTermGrid(20, 35)
+  const paint = new Paint(16, 32, tg)
 
   tg.clear()
   paint.draw()
