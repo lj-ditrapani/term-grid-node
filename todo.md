@@ -1,0 +1,14 @@
+- examples
+- raw input
+- color names for 64 colors
+- expand api to use 64 colors
+  - set6bit takes a number 0-63
+  - uses array to lookup correct byte index
+  - calls normal set method
+- ensure color input number are valid
+  - 8-bit 256 colors should be a byte (0-255)
+  - 6-bit 64 colors should be 0-63
+- ensure char param to set is string of size one
+- names for box drowing characters
+  <https://en.wikipedia.org/wiki/Box-drawing_character>
+- unit tests
