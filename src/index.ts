@@ -327,6 +327,8 @@ const colorMap6To8 = [
   c333
 ]
 
+export const esc = '\u001b'
+export const enter = '\u000d'
 export const arrowUp = '\u001b\u005b\u0041'
 export const arrowDown = '\u001b\u005b\u0042'
 export const arrowRight = '\u001b\u005b\u0043'
