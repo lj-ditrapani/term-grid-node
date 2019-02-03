@@ -46,6 +46,12 @@ export class TermGrid {
           .fill(null)
           .map(() => new Cell('.', 9, 7))
       )
+    const stdin = process.stdin
+    if (stdin.setRawMode) {
+      stdin.setRawMode(true)
+    }
+    stdin.resume()
+    stdin.setEncoding('utf8')
   }
 
   /** Clears the screen with the current background color. Literrally prints "\\u001b[2J". */
@@ -72,6 +78,9 @@ export class TermGrid {
 
   /** Reset colors and re-enable the cursor. Literrally prints "\\u001b[0m\\u001B[?25h" */
   public reset(): void {
+    if (process.stdin.setRawMode) {
+      process.stdin.setRawMode(false)
+    }
     this.printer.print(TermGrid.reset)
   }
 
