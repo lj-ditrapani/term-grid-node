@@ -1,8 +1,6 @@
 node_modules
-npm-debug.log
+package-lock.json
 .nyc_output
-*~
-*.swp
-/lib
+dist
 coverage
-/doc
+doc

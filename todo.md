@@ -1,3 +1,4 @@
+- Add esc & enter to key consts
 - examples
   - todo app
   - little man computer
