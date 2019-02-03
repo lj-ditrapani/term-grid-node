@@ -1,11 +1,11 @@
 {
-  "name": "todo-term-grid-example",
+  "name": "paint-term-grid-example",
   "version": "0.0.1",
-  "description": "Example todo app using term-grid-ui",
+  "description": "Example paint app using term-grid-ui",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "start": "node -r ts-node/register todo.ts",
+    "start": "node -r ts-node/register paint.ts",
     "fmt": "prettier --parser typescript --write \"*.ts\" \"src/**/*.ts\" \"test/**/*.ts\"",
     "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
     "tlint": "tslint --fix -c tslint.json '*.ts' 'src/**/*.ts' 'test/**/*.ts'",

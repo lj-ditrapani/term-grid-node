@@ -1,7 +1,8 @@
 - Add esc & enter to key consts
 - examples
-  - todo app
-  - little man computer
+  - half height of canvas (to 16)
+  - fill dead space
+  - Bottom:  print help & mode
 - unit tests
   - color input number bounds
 - documentation for missing methods (check)
