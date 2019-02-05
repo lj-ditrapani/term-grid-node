@@ -6,6 +6,22 @@ export class KeyCodes {
   public readonly arrowRight = '\u001b\u005b\u0043'
   public readonly arrowLeft = '\u001b\u005b\u0044'
 
+  public readonly boxLightHori = '\u2500' // ─
+  public readonly boxHeavyHori = '\u2501' // ━
+  public readonly boxLightVert = '\u2502' // │
+  public readonly boxHeavyVert = '\u2503' // ┃
+  public readonly boxLightDownRight = '\u250C' // ┌
+  public readonly boxHeavyDownRight = '\u250F' // ┏
+  public readonly boxLightDownLeft = '\u2510' // ┐
+  public readonly boxHeavyDownLeft = '\u2513' // ┓
+  public readonly boxLightUpRight = '\u2514' // └
+  public readonly boxHeavyUpRight = '\u2517' // ┗
+  public readonly boxLightUpLeft = '\u2518' // ┘
+  public readonly boxHeavyUpLeft = '\u251B' // ┛
+  public readonly boxSlash = '\u2571' // ╱
+  public readonly boxBackSlash = '\u2572' // ╲
+  public readonly boxX = '\u2573' // ╳
+
   public readonly upper12Block = '\u2580' // ▀
   public readonly lower18Block = '\u2581' // ▁
   public readonly lower14Block = '\u2582' // ▂
@@ -26,6 +42,18 @@ export class KeyCodes {
   public readonly lightShadeBlock = '\u2591' // ░
   public readonly mediumShadeBlock = '\u2592' // ▒
   public readonly darkShadeBlock = '\u2593' // ▓
+  public readonly upper18Block = '\u2594' // ▔
+  public readonly right18Block = '\u2595' // ▕
+  public readonly quadrantLowerLeft = '\u2596' // ▖
+  public readonly quadrantLowerRight = '\u2597' // ▗
+  public readonly quadrantUpperLeft = '\u2598' // ▘
+  public readonly quadrantNotUpperRight = '\u2599' // ▙
+  public readonly quadrantUpperLeftLowerRight = '\u259A' // ▚
+  public readonly quadrantNotLowerRight = '\u259B' // ▛
+  public readonly quadrantNotLowerLeft = '\u259C' // ▜
+  public readonly quadrantUpperRight = '\u259D' // ▝
+  public readonly quadrantUpperRightLowerLeft = '\u259E' // ▞
+  public readonly quadrantNotUpperLeft = '\u259F' // ▟
 }
 
 export const keyCodes = new KeyCodes()
