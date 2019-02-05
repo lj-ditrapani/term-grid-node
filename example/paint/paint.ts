@@ -1,27 +1,47 @@
-import { keyCodes, makeTermGrid, TermGrid } from 'term-grid-ui'
+import { colors, keyCodes, makeTermGrid, TermGrid } from 'term-grid-ui'
 const { arrowDown, arrowLeft, arrowRight, arrowUp, enter, esc } = keyCodes
+const {
+  c000,
+  c001,
+  c002,
+  c003,
+  c010,
+  c020,
+  c030,
+  c100,
+  c200,
+  c300,
+  c033,
+  c303,
+  c330,
+  c111,
+  c222,
+  c333,
+  c112,
+  c323
+} = colors
 
 class Paint {
   private mode: 'draw' | 'select-paint' = 'draw'
   private colorIndex: number = 0
   private penPosition: [number, number] = [0, 0]
   private colors: number[] = [
-    0b000000,
-    0b000001,
-    0b000010,
-    0b000011,
-    0b000100,
-    0b001000,
-    0b001100,
-    0b010000,
-    0b100000,
-    0b110000,
-    0b001111,
-    0b110011,
-    0b111100,
-    0b010101,
-    0b101010,
-    0b111111
+    c000,
+    c001,
+    c002,
+    c003,
+    c010,
+    c020,
+    c030,
+    c100,
+    c200,
+    c300,
+    c033,
+    c303,
+    c330,
+    c111,
+    c222,
+    c333
   ]
   private canvas: number[][]
 
@@ -32,7 +52,7 @@ class Paint {
   ) {
     this.canvas = Array(height)
       .fill(null)
-      .map(() => Array(width).fill(0b111111))
+      .map(() => Array(width).fill(c333))
   }
 
   public input = (data: string): void => {
@@ -48,26 +68,27 @@ class Paint {
   }
 
   public draw(): void {
-    const bg = 0b010110
+    const fg = c323
+    const bg = c112
     for (const [y, row] of this.canvas.entries()) {
       for (const [x, color] of row.entries()) {
-        this.tg.set6Bit(y, x, ' ', 0, color)
+        this.tg.set(y, x, ' ', c000, color)
       }
     }
     for (const [y, color] of this.colors.entries()) {
-      this.tg.set6Bit(y, 32, ' ', 0, bg)
-      this.tg.set6Bit(y, 33, ' ', 0, color)
-      this.tg.set6Bit(y, 34, ' ', 0, color)
+      this.tg.set(y, 32, ' ', c000, bg)
+      this.tg.set(y, 33, ' ', c000, color)
+      this.tg.set(y, 34, ' ', c000, color)
     }
     const bgOfPen = this.canvas[this.penPosition[0]][this.penPosition[1]]
-    this.tg.set6Bit(this.penPosition[0], this.penPosition[1], '*', 0b111011, bgOfPen)
+    this.tg.set(this.penPosition[0], this.penPosition[1], '*', fg, bgOfPen)
     const bgOfPaintSelection = this.colors[this.colorIndex]
-    this.tg.set6Bit(this.colorIndex, 33, '<', 0b111011, bgOfPaintSelection)
-    this.tg.set6Bit(this.colorIndex, 34, '>', 0b111011, bgOfPaintSelection)
-    this.tg.text(this.height, 0, ' '.repeat(35), 231, 61)
-    this.tg.text(this.height + 1, 0, 'Arrow keys to move in either mode  ', 231, 61)
-    this.tg.text(this.height + 2, 0, 'Enter: set pixel or exit paint sel ', 231, 61)
-    this.tg.text(this.height + 3, 0, 'Esc: enter paint select mode       ', 231, 61)
+    this.tg.set(this.colorIndex, 33, '<', fg, bgOfPaintSelection)
+    this.tg.set(this.colorIndex, 34, '>', fg, bgOfPaintSelection)
+    this.tg.text(this.height, 0, ' '.repeat(35), fg, bg)
+    this.tg.text(this.height + 1, 0, 'Arrow keys to move in either mode  ', c333, bg)
+    this.tg.text(this.height + 2, 0, 'Enter: set pixel or exit paint sel ', c333, bg)
+    this.tg.text(this.height + 3, 0, 'Esc: enter paint select mode       ', c333, bg)
     this.tg.draw()
   }
 
