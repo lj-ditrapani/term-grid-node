@@ -1,4 +1,5 @@
 import { strict as assert } from 'assert'
+import { ReadStream } from 'tty'
 import { colorMap6To8 } from './colors'
 export { colors } from './colors'
 export { keyCodes } from './key_codes'
@@ -6,8 +7,13 @@ export { keyCodes } from './key_codes'
 /**
  * Create a TermGrid
  */
-export const makeTermGrid = (height: number, width: number): TermGrid =>
-  new TermGrid(height, width, new Printer())
+export const makeTermGrid = (height: number, width: number): TermGrid => {
+  if (process.stdin.setRawMode) {
+    return new TermGrid(height, width, process.stdin as ReadStream, new Printer())
+  } else {
+    throw new Error('process.stdin must be a tty for term-grid-ui to work')
+  }
+}
 
 /**
  * Represents the terminal as a 2D grid with 256 colors.
@@ -43,6 +49,7 @@ export class TermGrid {
   constructor(
     private readonly height: number,
     private readonly width: number,
+    private readonly tty: ReadStream,
     private readonly printer: Printer
   ) {
     assert(this.height >= 1, 'Height must be positive.')
@@ -54,12 +61,9 @@ export class TermGrid {
           .fill(null)
           .map(() => new Cell('.', 9, 7))
       )
-    const stdin = process.stdin
-    if (stdin.setRawMode) {
-      stdin.setRawMode(true)
-    }
-    stdin.resume()
-    stdin.setEncoding('utf8')
+    this.tty.setRawMode(true)
+    this.tty.resume()
+    this.tty.setEncoding('utf8')
   }
 
   /**
@@ -88,14 +92,12 @@ export class TermGrid {
   }
 
   public onInput(handler: (data: string) => void): void {
-    process.stdin.on('data', handler)
+    this.tty.on('data', handler)
   }
 
   /** Reset colors and re-enable the cursor. Literrally prints "\\u001b[0m\\u001B[?25h" */
   public reset(): void {
-    if (process.stdin.setRawMode) {
-      process.stdin.setRawMode(false)
-    }
+    this.tty.setRawMode(false)
     this.printer.print(TermGrid.reset)
   }
 
