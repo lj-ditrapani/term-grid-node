@@ -13,6 +13,7 @@
     "lint": "npm run tlint && npm run fmt && npm run fmtjs",
     "tsc": "tsc",
     "doc": "typedoc --excludePrivate --excludeNotExported --out doc/ src",
+    "visual-test": "ts-node visual_test.ts",
     "all": "npm run lint && tsc && npm test"
   },
   "nyc": {

@@ -35,7 +35,7 @@ Develop
 
 ### Visual test ###
 
-    node visual_test.js
+    npm run visual-test
 
 
 ### Publish ###
