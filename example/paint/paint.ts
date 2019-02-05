@@ -169,8 +169,7 @@ class Paint {
 {
   const tg = makeTermGrid(20, 35)
   const paint = new Paint(16, 32, tg)
-
   tg.clear()
   paint.draw()
-  process.stdin.on('data', paint.input)
+  tg.onInput(paint.input)
 }
