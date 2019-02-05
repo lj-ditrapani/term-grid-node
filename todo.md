@@ -1,4 +1,3 @@
-- I think paint.ts example could be rewritten to only use set & text 8 bit variants
 - maybe give input callback api?
   - onInput(f) -> does process.stdin.on('data', f)
 - add example/paint to readme w/ sceen capture gif

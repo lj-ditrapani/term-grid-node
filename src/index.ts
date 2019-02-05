@@ -87,6 +87,10 @@ export class TermGrid {
     this.printer.print(str)
   }
 
+  public onInput(handler: (data: string) => void): void {
+    process.stdin.on('data', handler)
+  }
+
   /** Reset colors and re-enable the cursor. Literrally prints "\\u001b[0m\\u001B[?25h" */
   public reset(): void {
     if (process.stdin.setRawMode) {
