@@ -1,4 +1,4 @@
-import { colors, keyCodes, makeTermGrid, TermGrid } from 'term-grid-ui'
+import { colors, ITermGrid, keyCodes, makeTermGrid } from 'term-grid-ui'
 const { arrowDown, arrowLeft, arrowRight, arrowUp, enter, esc } = keyCodes
 const {
   c000,
@@ -48,7 +48,7 @@ class Paint {
   constructor(
     private readonly height: number,
     private readonly width: number,
-    private readonly tg: TermGrid
+    private readonly tg: ITermGrid
   ) {
     this.canvas = Array(height)
       .fill(null)
@@ -89,6 +89,7 @@ class Paint {
     this.tg.text(this.height + 1, 0, 'Arrow keys to move in either mode  ', c333, bg)
     this.tg.text(this.height + 2, 0, 'Enter: set pixel or exit paint sel ', c333, bg)
     this.tg.text(this.height + 3, 0, 'Esc: enter paint select mode       ', c333, bg)
+    this.tg.text(this.height + 4, 0, 'q: quit application                ', c333, bg)
     this.tg.draw()
   }
 
@@ -167,7 +168,7 @@ class Paint {
 }
 
 {
-  const tg = makeTermGrid(20, 35)
+  const tg = makeTermGrid(21, 35)
   const paint = new Paint(16, 32, tg)
   tg.clear()
   paint.draw()
