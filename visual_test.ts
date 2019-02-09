@@ -25,7 +25,7 @@ tg.draw()
 
 let x = 0
 let y = 0
-process.stdin.on('data', data => {
+tg.onInput( data => {
   tg.set(5, 5, 'Y', darkCyan, mediumCyan)
   const str = [...data].map(c => c.charCodeAt(0).toString(16)).join('')
   tg.text(8, 0, '............', 0, 0)
