@@ -5,30 +5,22 @@ export { colors } from './colors'
 export { keyCodes } from './key_codes'
 
 /**
- * Create a TermGrid
- */
-export const makeTermGrid = (height: number, width: number): TermGrid => {
-  if (process.stdin.setRawMode) {
-    return new TermGrid(height, width, process.stdin as ReadStream, new Printer())
-  } else {
-    throw new Error('process.stdin must be a tty for term-grid-ui to work')
-  }
-}
-
-/**
  * Represents the terminal as a 2D grid with 256 colors.
  * Create an instance with the makeTermGrid factory function.
  *
- * <p>Typical usage might have a setup, a main loop, and a shutdown.
+ * <p>Typical usage might have a setup, a core function, and a shutdown.
  *
- * <p>The setup would call clear() to clean up the screen. Example main loop:
+ * <p>Setup: the setup would call clear() to clean up the screen.
+ *    Then attach an input event handler function with the onInput method.
+ *    The handler should either be the core function or call the core function.
+ *
+ * <p> Core function: called for each input/other event.  Example:
  *
  * <ul>
- *   <li>User input/other event
- *   <li>Business logic
+ *   <li>Interpret event
+ *   <li>Apply business logic
  *   <li>Update grid with several calls to set() and/or text() methods
  *   <li>Call draw() to display the new grid state on the terminal
- *   <li>Repeat
  * </ul>
  *
  * <p>Shutdown: call reset() to return the terminal to normal.
@@ -36,14 +28,99 @@ export const makeTermGrid = (height: number, width: number): TermGrid => {
  * <p>A color byte is an index into one of the 256 ANSI Xterm colors <a
  * href="https://jonasjacek.github.io/colors/">https://jonasjacek.github.io/colors/</a>
  */
-export class TermGrid {
+export interface ITermGrid {
+  /**
+   * Clears the screen with the current background color.
+   * Literally prints "\\u001b[2J".
+   */
+  clear(): void
+
+  /** Draw the current state of the grid to the terminal. */
+  draw(): void
+
+  /**
+   * Whenever the terminal receives user keystrokes, calls handler passing in
+   * the utf-8 encoded string representing the key strokes
+   */
+  onInput(handler: (data: string) => void): void
+
+  /** Reset colors and re-enable the cursor. Literally prints "\\u001b[0m\\u001B[?25h" */
+  reset(): void
+
+  /**
+   * Set a cell in the grid. You must call draw() to see the change in the terminal.
+   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param c character to set in cell
+   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
+   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
+   */
+  set(y: number, x: number, c: string, fg: number, bg: number): void
+
+  /**
+   * Set a cell in the grid. You must call draw() to see the change in the terminal.
+   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param c character to set in cell
+   * @param fg 6-bit foreground color to set to each cell for the text.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit background color to set to each cell in under text.
+   *           Must be in range [0-63] inclusive.
+   */
+  set6Bit(y: number, x: number, c: string, fg: number, bg: number): void
+
+  /**
+   * Set a sequence of cells of a row in the grid.
+   * Effects n cells where n is the length of text.
+   * You must call draw() to see the change in the terminal.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param text text to write in row y starting in column x
+   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
+   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
+   */
+  text(y: number, x: number, text: string, fg: number, bg: number): void
+
+  /**
+   * Set a sequence of cells of a row in the grid.
+   * Effects n cells where n is the length of text.
+   * You must call draw() to see the change in the terminal.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param text text to write in row y starting in column x
+   * @param fg 6-bit foreground color to set to each cell for the text.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit background color to set to each cell in under text.
+   *           Must be in range [0-63] inclusive.
+   */
+  text6Bit(y: number, x: number, text: string, fg: number, bg: number): void
+}
+
+/**
+ * Create a TermGrid
+ */
+export const makeTermGrid = (height: number, width: number): ITermGrid => {
+  if (process.stdin.setRawMode) {
+    return new TermGrid(height, width, process.stdin as ReadStream, new Printer())
+  } else {
+    throw new Error('process.stdin must be a tty for term-grid-ui to work')
+  }
+}
+
+export class TermGrid implements ITermGrid {
   private static readonly clear = '\u001b[2J'
   private static readonly init = '\u001B[?25l\u001b[0;0H'
   private static readonly reset = '\u001b[0m\u001B[?25h'
   private readonly grid: Cell[][]
 
   /**
-   * For unit testing only.
+   * For internal unit testing only.
    * Use makeTermGrid factory function instead.
    */
   constructor(
@@ -66,15 +143,10 @@ export class TermGrid {
     this.tty.setEncoding('utf8')
   }
 
-  /**
-   * Clears the screen with the current background color.
-   * Literrally prints "\\u001b[2J".
-   */
   public clear(): void {
     this.printer.print(TermGrid.clear)
   }
 
-  /** Draw the current state of the grid to the terminal. */
   public draw(): void {
     let str = TermGrid.init
     for (const row of this.grid) {
@@ -95,22 +167,11 @@ export class TermGrid {
     this.tty.on('data', handler)
   }
 
-  /** Reset colors and re-enable the cursor. Literrally prints "\\u001b[0m\\u001B[?25h" */
   public reset(): void {
     this.tty.setRawMode(false)
     this.printer.print(TermGrid.reset)
   }
 
-  /**
-   * Set a cell in the grid. You must call draw() to see the change in the terminal.
-   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param c character to set in cell
-   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
-   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
-   */
   public set(y: number, x: number, c: string, fg: number, bg: number): void {
     assert(c.length === 1, 'set takes a string of length one as c (a character)')
     this.checkBounds(y, x)
@@ -121,18 +182,6 @@ export class TermGrid {
     cell.bg = bg
   }
 
-  /**
-   * Set a cell in the grid. You must call draw() to see the change in the terminal.
-   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param c character to set in cell
-   * @param fg 6-bit foreground color to set to each cell for the text.
-   *           Must be in range [0-63] inclusive.
-   * @param bg 6-bit background color to set to each cell in under text.
-   *           Must be in range [0-63] inclusive.
-   */
   public set6Bit(y: number, x: number, c: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
@@ -142,17 +191,6 @@ export class TermGrid {
     cell.bg = colorMap6To8[bg]
   }
 
-  /**
-   * Set a sequence of cells of a row in the grid.
-   * Effects n cells where n is the length of text.
-   * You must call draw() to see the change in the terminal.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param text text to write in row y starting in column x
-   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
-   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
-   */
   public text(y: number, x: number, text: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors(fg, bg)
@@ -165,19 +203,6 @@ export class TermGrid {
     }
   }
 
-  /**
-   * Set a sequence of cells of a row in the grid.
-   * Effects n cells where n is the length of text.
-   * You must call draw() to see the change in the terminal.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param text text to write in row y starting in column x
-   * @param fg 6-bit foreground color to set to each cell for the text.
-   *           Must be in range [0-63] inclusive.
-   * @param bg 6-bit background color to set to each cell in under text.
-   *           Must be in range [0-63] inclusive.
-   */
   public text6Bit(y: number, x: number, text: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
@@ -223,10 +248,10 @@ class Cell {
 }
 
 /**
- * Console abstraction
+ * Console abstraction.
  * Only exists to make TermGrid more testable.
  * You should not need to use this.
- * Use makeTermGrid factory function directly..
+ * Use makeTermGrid factory function directly.
  */
 export class Printer {
   public print(s: string): void {
