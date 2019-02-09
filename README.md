@@ -41,4 +41,5 @@ Develop
 ### Publish ###
 
     npm login
+    npm version patch/minor/major
     npm publish
