@@ -31,9 +31,7 @@ tg.onInput(data => {
 API Documentation
 -----------------
 
-### Generate documentation ###
-
-    npm run doc
+<https://lj-ditrapani.github.io/term-grid-node/index.html>
 
 
 Example
@@ -60,6 +58,11 @@ Develop
 ### Visual test ###
 
     npm run visual-test
+
+
+### Generate documentation ###
+
+    npm run doc
 
 
 ### Publish ###
