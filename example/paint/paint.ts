@@ -130,7 +130,7 @@ class Paint {
           this.colorIndex
         ]
         break
-      case '\u0071':
+      case 'q':
         this.tg.reset()
         process.exit()
         break

@@ -1,9 +1,9 @@
 {
-  "name": "paint-term-grid-example",
+  "name": "usage-term-grid-example",
   "version": "0.0.1",
-  "description": "Example paint app using term-grid-ui",
+  "description": "Simplest term-grid-ui example usage",
   "scripts": {
-    "start": "node -r ts-node/register paint.ts",
+    "start": "node -r ts-node/register usage.ts",
     "fmt": "prettier --parser typescript --write \"*.ts\" \"src/**/*.ts\" \"test/**/*.ts\"",
     "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
     "tlint": "tslint --fix -c tslint.json '*.ts' 'src/**/*.ts' 'test/**/*.ts'",
