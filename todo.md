@@ -1,5 +1,3 @@
-- unit tests
-    - color input number bounds
 - publish to npm
 - Finish names for box drawing characters
   <https://en.wikipedia.org/wiki/Box-drawing_character>

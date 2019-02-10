@@ -268,6 +268,152 @@ describe('TermGrid', () => {
     })
   })
 
+  describe('text', () => {
+    describe('when text overflows grid', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 2, 'xyz', colors.green, colors.black),
+              /x \+ text.length must be <= grid width/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when y is < 0', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(-1, 2, 'x', colors.green, colors.black),
+              /y index must be >= 0 and < grid height/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when y is > grid height - 1', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(3, 2, 'x', colors.green, colors.black),
+              /y index must be >= 0 and < grid height/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when x is < 0', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, -1, 'x', colors.green, colors.black),
+              /x index must be >= 0 and < grid width/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when x is > grid width - 1', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 4, 'x', colors.green, colors.black),
+              /x index must be >= 0 and < grid width/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when fg is too low', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 2, 'x', -1, colors.black),
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when fg is too high', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 2, 'x', 64, colors.black),
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when bg is too low', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 2, 'x', colors.green, -1),
+              /6-bit background color bg must be in range \[0, 63\] inclusive/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+
+    describe('when bg is too high', () => {
+      it('throws an error', () => {
+        class Test extends Fixture {
+          public test() {
+            const grid = new TermGrid(3, 4, this.readStream, this.printer)
+            assert.throws(
+              () => grid.text(1, 2, 'x', colors.green, 64),
+              /6-bit background color bg must be in range \[0, 63\] inclusive/
+            )
+          }
+        }
+
+        new Test().test()
+      })
+    })
+  })
+
   describe('draw', () => {
     it('draws the cells as they have been set with set & text', () => {
       class Test extends Fixture {
