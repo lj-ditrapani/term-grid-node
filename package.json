@@ -12,7 +12,7 @@
     "tlint": "tslint --fix -c tslint.json '*.ts' 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "npm run tlint && npm run fmt && npm run fmtjs",
     "tsc": "tsc",
-    "doc": "typedoc --excludePrivate --excludeNotExported --out docs/ src",
+    "doc": "typedoc --excludePrivate --excludeNotExported --out docs/ src && touch docs/.nojekyll",
     "visual-test": "ts-node visual_test.ts",
     "all": "npm run lint && tsc && npm test"
   },
