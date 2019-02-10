@@ -70,7 +70,9 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents the terminal as a 2D grid with 256 colors.
+						<p>Represents the terminal as a 2D grid with 64 colors.
+							Each cell has a foreground color fg, a background color bg and a unicode
+							text character.
 						Create an instance with the makeTermGrid factory function.</p>
 					</div>
 					<p>Typical usage might have a setup, a core function, and a shutdown.
@@ -85,8 +87,10 @@
 												<li>Call draw() to display the new grid state on the terminal
 								</ul>
 								<p>Shutdown: call reset() to return the terminal to normal.
-									<p>A color byte is an index into one of the 256 ANSI Xterm colors <a
-										href="https://jonasjacek.github.io/colors/">https://jonasjacek.github.io/colors/</a>
+									<p>A fg or bg color is a 6-bit RGB color from a 4x4x4 RGB color cube.
+										A value in the range [0-63] inclusive.  The bits in the number are RRGGBB.
+										In other words, 2 bits per color component; in order red, green, then blue.
+										For example if the color is 0b011011, then red is 1, green is 2 and blue is 3.
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -115,9 +119,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#oninput" class="tsd-kind-icon">on<wbr>Input</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#reset" class="tsd-kind-icon">reset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#set" class="tsd-kind-icon">set</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#set6bit" class="tsd-kind-icon">set6<wbr>Bit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#text" class="tsd-kind-icon">text</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_index_.itermgrid.html#text6bit" class="tsd-kind-icon">text6<wbr>Bit</a></li>
 							</ul>
 						</section>
 					</div>
@@ -135,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L36">index.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L40">index.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -158,7 +160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L39">index.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L43">index.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -180,7 +182,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L45">index.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L49">index.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -227,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L48">index.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L52">index.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -249,13 +251,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L60">index.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L65">index.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a cell in the grid. You must call draw() to see the change in the terminal.
-									fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.</p>
+									<p>Set a cell in the grid. You must call draw() to see the change in the terminal.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -281,70 +282,14 @@
 								<li>
 									<h5>fg: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>foreground color to set in cell.  Must be in range [0-255] inclusive.</p>
-									</div>
-								</li>
-								<li>
-									<h5>bg: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>background color to set in cell.  Must be in range [0-255] inclusive.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="set6bit" class="tsd-anchor"></a>
-					<h3>set6<wbr>Bit</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">set6<wbr>Bit<span class="tsd-signature-symbol">(</span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, c<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, bg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L74">index.ts:74</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a cell in the grid. You must call draw() to see the change in the terminal.
-									fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>0-based row index into grid</p>
-									</div>
-								</li>
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>0-based column index into grid</p>
-									</div>
-								</li>
-								<li>
-									<h5>c: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>character to set in cell</p>
-									</div>
-								</li>
-								<li>
-									<h5>fg: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>6-bit foreground color to set to each cell for the text.
+										<p>6-bit RGB foreground color to set for the cell.
 										Must be in range [0-63] inclusive.</p>
 									</div>
 								</li>
 								<li>
 									<h5>bg: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>6-bit background color to set to each cell in under text.
+										<p>6-bit RGB background color to set for the cell.
 										Must be in range [0-63] inclusive.</p>
 									</div>
 								</li>
@@ -363,64 +308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L87">index.ts:87</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a sequence of cells of a row in the grid.
-										Effects n cells where n is the length of text.
-									You must call draw() to see the change in the terminal.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>0-based row index into grid</p>
-									</div>
-								</li>
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>0-based column index into grid</p>
-									</div>
-								</li>
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>text to write in row y starting in column x</p>
-									</div>
-								</li>
-								<li>
-									<h5>fg: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>foreground color to set in cell.  Must be in range [0-255] inclusive.</p>
-									</div>
-								</li>
-								<li>
-									<h5>bg: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>background color to set in cell.  Must be in range [0-255] inclusive.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="text6bit" class="tsd-anchor"></a>
-					<h3>text6<wbr>Bit</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">text6<wbr>Bit<span class="tsd-signature-symbol">(</span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, bg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/322124f/src/index.ts#L102">index.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/lj-ditrapani/term-grid-node/blob/c3c7a3f/src/index.ts#L80">index.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,7 +348,7 @@
 								<li>
 									<h5>bg: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>6-bit background color to set to each cell in under text.
+										<p>6-bit background color to set to each cell.
 										Must be in range [0-63] inclusive.</p>
 									</div>
 								</li>
@@ -517,13 +405,7 @@
 								<a href="_index_.itermgrid.html#set" class="tsd-kind-icon">set</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_index_.itermgrid.html#set6bit" class="tsd-kind-icon">set6<wbr>Bit</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_index_.itermgrid.html#text" class="tsd-kind-icon">text</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_index_.itermgrid.html#text6bit" class="tsd-kind-icon">text6<wbr>Bit</a>
 							</li>
 						</ul>
 					</li>
