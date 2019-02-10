@@ -1,5 +1,5 @@
 import { colors, keyCodes, makeTermGrid } from './lib/index'
-const { darkCyan, mediumCyan, cyan } = colors
+const { darkBlue, white, darkCyan, mediumCyan, cyan } = colors
 const {
   arrowUp,
   arrowDown,
@@ -14,7 +14,7 @@ const tg = makeTermGrid(10, 30)
 
 tg.clear()
 tg.set(1, 1, '%', darkCyan, cyan)
-tg.text(2, 2, 'hello', 2, 3)
+tg.text(2, 2, 'hello', white, darkBlue)
 tg.draw()
 tg.set(1, 2, '%', cyan, darkCyan)
 tg.set(6, 5, lightShadeBlock, cyan, darkCyan)
@@ -50,7 +50,7 @@ tg.onInput(data => {
     tg.set(7, 2, 'X', mediumCyan, cyan)
   }
   tg.draw()
-  if (data === '\u0071') {
+  if (data === 'q') {
     tg.reset()
     process.exit()
   }

@@ -1,11 +1,13 @@
 import { strict as assert } from 'assert'
 import { ReadStream } from 'tty'
-import { colorMap6To8 } from './colors'
+import { colorMap6To8, colors } from './colors'
 export { colors } from './colors'
 export { keyCodes } from './key_codes'
 
 /**
- * Represents the terminal as a 2D grid with 256 colors.
+ * Represents the terminal as a 2D grid with 64 colors.
+ * Each cell has a foreground color fg, a background color bg and a unicode
+ * text character.
  * Create an instance with the makeTermGrid factory function.
  *
  * <p>Typical usage might have a setup, a core function, and a shutdown.
@@ -25,8 +27,10 @@ export { keyCodes } from './key_codes'
  *
  * <p>Shutdown: call reset() to return the terminal to normal.
  *
- * <p>A color byte is an index into one of the 256 ANSI Xterm colors <a
- * href="https://jonasjacek.github.io/colors/">https://jonasjacek.github.io/colors/</a>
+ * <p>A fg or bg color is a 6-bit RGB color from a 4x4x4 RGB color cube.
+ *    A value in the range [0-63] inclusive.  The bits in the number are RRGGBB.
+ *    In other words, 2 bits per color component; in order red, green, then blue.
+ *    For example if the color is 0b011011, then red is 1, green is 2 and blue is 3.
  */
 export interface ITermGrid {
   /**
@@ -49,31 +53,18 @@ export interface ITermGrid {
 
   /**
    * Set a cell in the grid. You must call draw() to see the change in the terminal.
-   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
    *
    * @param y 0-based row index into grid
    * @param x 0-based column index into grid
    * @param c character to set in cell
-   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
-   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
+   * @param fg 6-bit RGB foreground color to set for the cell.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit RGB background color to set for the cell.
+   *           Must be in range [0-63] inclusive.
    */
   set(y: number, x: number, c: string, fg: number, bg: number): void
 
   /**
-   * Set a cell in the grid. You must call draw() to see the change in the terminal.
-   * fg and bg are color bytes; indexes into one of the 256 ANSI Xterm colors.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param c character to set in cell
-   * @param fg 6-bit foreground color to set to each cell for the text.
-   *           Must be in range [0-63] inclusive.
-   * @param bg 6-bit background color to set to each cell in under text.
-   *           Must be in range [0-63] inclusive.
-   */
-  set6Bit(y: number, x: number, c: string, fg: number, bg: number): void
-
-  /**
    * Set a sequence of cells of a row in the grid.
    * Effects n cells where n is the length of text.
    * You must call draw() to see the change in the terminal.
@@ -81,25 +72,12 @@ export interface ITermGrid {
    * @param y 0-based row index into grid
    * @param x 0-based column index into grid
    * @param text text to write in row y starting in column x
-   * @param fg foreground color to set in cell.  Must be in range [0-255] inclusive.
-   * @param bg background color to set in cell.  Must be in range [0-255] inclusive.
+   * @param fg 6-bit foreground color to set to each cell for the text.
+   *           Must be in range [0-63] inclusive.
+   * @param bg 6-bit background color to set to each cell.
+   *           Must be in range [0-63] inclusive.
    */
   text(y: number, x: number, text: string, fg: number, bg: number): void
-
-  /**
-   * Set a sequence of cells of a row in the grid.
-   * Effects n cells where n is the length of text.
-   * You must call draw() to see the change in the terminal.
-   *
-   * @param y 0-based row index into grid
-   * @param x 0-based column index into grid
-   * @param text text to write in row y starting in column x
-   * @param fg 6-bit foreground color to set to each cell for the text.
-   *           Must be in range [0-63] inclusive.
-   * @param bg 6-bit background color to set to each cell in under text.
-   *           Must be in range [0-63] inclusive.
-   */
-  text6Bit(y: number, x: number, text: string, fg: number, bg: number): void
 }
 
 /**
@@ -131,12 +109,14 @@ export class TermGrid implements ITermGrid {
   ) {
     assert(this.height >= 1, 'Height must be positive.')
     assert(this.width >= 1, 'Width must be positive.')
+    const fg = colorMap6To8[colors.darkPurple]
+    const bg = colorMap6To8[colors.lightGrey]
     this.grid = Array(height)
       .fill(null)
       .map(() =>
         Array(width)
           .fill(null)
-          .map(() => new Cell('.', 9, 7))
+          .map(() => new Cell('.', fg, bg))
       )
     this.tty.setRawMode(true)
     this.tty.resume()
@@ -176,37 +156,33 @@ export class TermGrid implements ITermGrid {
     assert(c.length === 1, 'set takes a string of length one as c (a character)')
     this.checkBounds(y, x)
     checkColors(fg, bg)
-    const cell = this.grid[y][x]
-    cell.c = c
-    cell.fg = fg
-    cell.bg = bg
-  }
-
-  public set6Bit(y: number, x: number, c: string, fg: number, bg: number): void {
-    checkColors6Bit(fg, bg)
-    this.set(y, x, c, colorMap6To8[fg], colorMap6To8[bg])
+    this.unsafeSet(y, x, c, colorMap6To8[fg], colorMap6To8[bg])
   }
 
   public text(y: number, x: number, text: string, fg: number, bg: number): void {
     this.checkBounds(y, x)
     checkColors(fg, bg)
+    const fg8Bit = colorMap6To8[fg]
+    const bg8Bit = colorMap6To8[bg]
     assert(x + text.length <= this.width, 'x + text.length must be <= grid width')
     let currX = x
     for (let i = 0; i < text.length; i++) {
       const c = text.charAt(i)
-      this.set(y, currX, c, fg, bg)
+      this.unsafeSet(y, currX, c, fg8Bit, bg8Bit)
       ++currX
     }
-  }
-
-  public text6Bit(y: number, x: number, text: string, fg: number, bg: number): void {
-    checkColors6Bit(fg, bg)
-    this.text(y, x, text, colorMap6To8[fg], colorMap6To8[bg])
   }
 
   private checkBounds(y: number, x: number): void {
     assert(y >= 0 && y < this.height, 'y index must by >= 0 and < grid height')
     assert(x >= 0 && x < this.width, 'x index must by >= 0 and < grid width')
+  }
+
+  private unsafeSet(y: number, x: number, c: string, fg8: number, bg8: number): void {
+    const cell = this.grid[y][x]
+    cell.c = c
+    cell.fg = fg8
+    cell.bg = bg8
   }
 }
 
@@ -216,18 +192,6 @@ const checkColors = (fg: number, bg: number): void => {
 }
 
 const checkColor = (color: number, desc: string, name: string): void => {
-  assert(
-    color <= 255 && color >= 0,
-    `8-bit ${desc} color ${name} must be in range [0, 255] inclusive`
-  )
-}
-
-const checkColors6Bit = (fg: number, bg: number): void => {
-  checkColor6Bit(fg, 'foreground', 'fg')
-  checkColor6Bit(bg, 'background', 'bg')
-}
-
-const checkColor6Bit = (color: number, desc: string, name: string): void => {
   assert(
     color <= 63 && color >= 0,
     `6-bit ${desc} color ${name} must be in range [0, 63] inclusive`
