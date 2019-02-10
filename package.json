@@ -1,6 +1,6 @@
 {
   "name": "term-grid-ui",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Simple 2D color character grid abstraction for terminal apps",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
