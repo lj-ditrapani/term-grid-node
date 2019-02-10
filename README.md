@@ -4,6 +4,14 @@ Term-Grid UI for Nodejs
 Simple 2D color character grid abstraction for terminal apps.
 
 
+npm package
+-----------
+
+<https://www.npmjs.com/package/term-grid-ui>
+
+    npm install --save term-grid-ui
+
+
 Usage
 -----
 
