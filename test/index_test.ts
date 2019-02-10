@@ -1,7 +1,7 @@
 import { strict as assert } from 'assert'
 import * as sinon from 'sinon'
 import { ReadStream } from 'tty'
-import { colors, Printer, TermGrid } from '../src/index'
+import { colors, keyCodes, Printer, TermGrid } from '../src/index'
 
 // tslint:disable:no-object-literal-type-assertion max-classes-per-file
 class Fixture {
@@ -121,6 +121,79 @@ describe('TermGrid', () => {
 
         new Test().test()
       })
+    })
+  })
+
+  describe('draw', () => {
+    it('draws the cells as they have been set with set & text', () => {
+      class Test extends Fixture {
+        public test() {
+          const grid = new TermGrid(2, 3, this.readStream, this.printer)
+          let expected
+          let actual
+
+          grid.set(0, 0, 'a', colors.red, colors.black)
+          grid.set(0, 1, 'b', colors.black, colors.red)
+          grid.set(0, 2, 'c', colors.black, colors.red)
+          grid.set(1, 0, 'x', colors.blue, colors.black)
+          grid.text(1, 1, 'yz', colors.black, colors.blue)
+          grid.draw()
+          expected = Buffer.from(
+            '\u001B[?25l\u001b[0;0H' +
+              '\u001b[38;5;196m\u001b[48;5;016ma\u0000\u0000\u0000' +
+              '\u001b[38;5;016m\u001b[48;5;196mb\u0000\u0000\u0000' +
+              '\u001b[38;5;016m\u001b[48;5;196mc\u0000\u0000\u0000' +
+              '\n' +
+              '\u001b[38;5;021m\u001b[48;5;016mx\u0000\u0000\u0000' +
+              '\u001b[38;5;016m\u001b[48;5;021my\u0000\u0000\u0000' +
+              '\u001b[38;5;016m\u001b[48;5;021mz\u0000\u0000\u0000' +
+              '\n'
+          )
+          actual = this.print.getCall(0).args[0]
+          assert.deepEqual(actual, expected)
+        }
+      }
+
+      new Test().test()
+    })
+
+    it('erases previous character before writing next', () => {
+      class Test extends Fixture {
+        public test() {
+          const grid = new TermGrid(1, 1, this.readStream, this.printer)
+          let expected
+          let actual
+
+          grid.set(0, 0, keyCodes.fullBlock, colors.red, colors.black)
+          grid.draw()
+          expected = Buffer.from(
+            '\u001B[?25l\u001b[0;0H' +
+            '\u001b[38;5;196m' + // fg red
+            '\u001b[48;5;016m' + // bg black
+            keyCodes.fullBlock +
+            '\u0000' + // char
+              '\n'
+          )
+          actual = this.print.getCall(0).args[0]
+          assert.deepEqual(actual, expected)
+
+          grid.set(0, 0, 'x', colors.red, colors.black)
+          grid.draw()
+          expected = Buffer.from(
+            '\u001B[?25l\u001b[0;0H' +
+            '\u001b[38;5;196m' + // fg red
+            '\u001b[48;5;016m' + // bg black
+            'x\u0000\u0000\u0000' + // char
+              '\n'
+          )
+          actual = this.print.getCall(1).args[0]
+          assert.deepEqual(actual, expected)
+
+          sinon.assert.calledTwice(this.print)
+        }
+      }
+
+      new Test().test()
     })
   })
 })

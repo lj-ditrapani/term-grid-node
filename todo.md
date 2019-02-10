@@ -1,5 +1,4 @@
 - unit tests
-    - create fixture for stubs
     - color input number bounds
 - publish to npm
 - Finish names for box drawing characters

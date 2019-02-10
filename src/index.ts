@@ -152,6 +152,7 @@ export class TermGrid implements ITermGrid {
         const offset = yOffset + x * 26
         this.buffer.write(('' + cell.fg).padStart(3, '0'), offset + 7)
         this.buffer.write(('' + cell.bg).padStart(3, '0'), offset + 18)
+        this.buffer.write('\u0000\u0000\u0000\u0000', offset + 22)
         this.buffer.write(cell.c, offset + 22)
       })
     })
