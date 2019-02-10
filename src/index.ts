@@ -211,24 +211,26 @@ export class TermGrid implements ITermGrid {
 }
 
 const checkColors = (fg: number, bg: number): void => {
+  checkColor(fg, 'foreground', 'fg')
+  checkColor(bg, 'background', 'bg')
+}
+
+const checkColor = (color: number, desc: string, name: string): void => {
   assert(
-    fg <= 255 && fg >= 0,
-    '8-bit foreground color fg must be in range [0, 255] inclusive'
-  )
-  assert(
-    bg <= 255 && bg >= 0,
-    '8-bit background color bg must be in range [0, 255] inclusive'
+    color <= 255 && color >= 0,
+    `8-bit ${desc} color ${name} must be in range [0, 255] inclusive`
   )
 }
 
 const checkColors6Bit = (fg: number, bg: number): void => {
+  checkColor6Bit(fg, 'foreground', 'fg')
+  checkColor6Bit(bg, 'background', 'bg')
+}
+
+const checkColor6Bit = (color: number, desc: string, name: string): void => {
   assert(
-    fg <= 63 && fg >= 0,
-    '6-bit foreground color fg must be in range [0, 63] inclusive'
-  )
-  assert(
-    bg <= 63 && bg >= 0,
-    '6-bit background color bg must be in range [0, 63] inclusive'
+    color <= 63 && color >= 0,
+    `6-bit ${desc} color ${name} must be in range [0, 63] inclusive`
   )
 }
 
