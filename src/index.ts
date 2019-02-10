@@ -95,7 +95,9 @@ export class TermGrid implements ITermGrid {
   private static readonly clear = '\u001b[2J'
   private static readonly init = '\u001B[?25l\u001b[0;0H'
   private static readonly reset = '\u001b[0m\u001B[?25h'
+  private static readonly initSize = Buffer.byteLength(TermGrid.init)
   private readonly grid: Cell[][]
+  private readonly buffer: Buffer
 
   /**
    * For internal unit testing only.
@@ -121,6 +123,12 @@ export class TermGrid implements ITermGrid {
     this.tty.setRawMode(true)
     this.tty.resume()
     this.tty.setEncoding('utf8')
+    // Each cell needs 26 bytes:
+    // - 11 to set fg color
+    // - 11 to set bg color
+    // - 4 for utf8 unicode char (unused bytes will be null 0x00)
+    this.buffer = Buffer.alloc(TermGrid.initSize + height * width * 26 + height)
+    this.buffer.write(TermGrid.init)
   }
 
   public clear(): void {
@@ -128,19 +136,20 @@ export class TermGrid implements ITermGrid {
   }
 
   public draw(): void {
-    let str = TermGrid.init
-    for (const row of this.grid) {
-      for (const cell of row) {
-        str += '\u001b[38;5;'
-        str += cell.fg
-        str += 'm\u001b[48;5;'
-        str += cell.bg
-        str += 'm'
-        str += cell.c
-      }
-      str += '\n'
-    }
-    this.printer.print(str)
+    this.grid.forEach((row, y) => {
+      const yOffset = TermGrid.initSize + y * (this.width * 26 + 1)
+      row.forEach((cell, x) => {
+        const offset = yOffset + x * 26
+        this.buffer.write('\u001b[38;5;', offset)
+        this.buffer.write(('' + cell.fg).padStart(3, '0'), offset + 7)
+        this.buffer.write('m\u001b[48;5;', offset + 10)
+        this.buffer.write(('' + cell.bg).padStart(3, '0'), offset + 18)
+        this.buffer.write('m', offset + 21)
+        this.buffer.write(cell.c, offset + 22)
+      })
+      this.buffer.write('\n', yOffset + this.width * 26)
+    })
+    this.printer.print(this.buffer)
   }
 
   public onInput(handler: (data: string) => void): void {
@@ -209,7 +218,11 @@ class Cell {
  * Use makeTermGrid factory function directly.
  */
 export class Printer {
-  public print(s: string): void {
-    console.log(s)
+  public print(data: Buffer | string): void {
+    if (typeof data === 'string') {
+      console.log(data)
+    } else {
+      process.stdout.write(data)
+    }
   }
 }

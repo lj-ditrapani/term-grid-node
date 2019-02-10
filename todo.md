@@ -1,12 +1,11 @@
-- Make colors 6-bit only (0-63)
-  - delete 8-bit api; rename 6bit api to set & text
 - Use a Buffer?
-  - Pre-alocate to be max size based on given height/width
-  - use process.stdout to print buffer directly?
+  - should have console and stdout?
+  - could just pre-populate control chars on construction
+  - draw only sets the specific bytes for color & characters
 - unit tests
     - create fixture for stubs
     - color input number bounds
 - publish to npm
-- Finish names for box drowing characters
+- Finish names for box drawing characters
   <https://en.wikipedia.org/wiki/Box-drawing_character>
 - add example/paint to readme w/ sceen capture gif

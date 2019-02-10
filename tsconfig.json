@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "module": "CommonJS",
-    "target": "es2016",
+    "target": "es2017",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
