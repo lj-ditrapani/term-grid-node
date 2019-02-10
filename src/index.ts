@@ -129,6 +129,16 @@ export class TermGrid implements ITermGrid {
     // - 4 for utf8 unicode char (unused bytes will be null 0x00)
     this.buffer = Buffer.alloc(TermGrid.initSize + height * width * 26 + height)
     this.buffer.write(TermGrid.init)
+    this.grid.forEach((row, y) => {
+      const yOffset = TermGrid.initSize + y * (this.width * 26 + 1)
+      row.forEach((_cell, x) => {
+        const offset = yOffset + x * 26
+        this.buffer.write('\u001b[38;5;', offset)
+        this.buffer.write('m\u001b[48;5;', offset + 10)
+        this.buffer.write('m', offset + 21)
+      })
+      this.buffer.write('\n', yOffset + this.width * 26)
+    })
   }
 
   public clear(): void {
@@ -140,14 +150,10 @@ export class TermGrid implements ITermGrid {
       const yOffset = TermGrid.initSize + y * (this.width * 26 + 1)
       row.forEach((cell, x) => {
         const offset = yOffset + x * 26
-        this.buffer.write('\u001b[38;5;', offset)
         this.buffer.write(('' + cell.fg).padStart(3, '0'), offset + 7)
-        this.buffer.write('m\u001b[48;5;', offset + 10)
         this.buffer.write(('' + cell.bg).padStart(3, '0'), offset + 18)
-        this.buffer.write('m', offset + 21)
         this.buffer.write(cell.c, offset + 22)
       })
-      this.buffer.write('\n', yOffset + this.width * 26)
     })
     this.printer.print(this.buffer)
   }
@@ -219,10 +225,6 @@ class Cell {
  */
 export class Printer {
   public print(data: Buffer | string): void {
-    if (typeof data === 'string') {
-      console.log(data)
-    } else {
-      process.stdout.write(data)
-    }
+    process.stdout.write(data)
   }
 }

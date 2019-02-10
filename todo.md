@@ -1,7 +1,3 @@
-- Use a Buffer?
-  - should have console and stdout?
-  - could just pre-populate control chars on construction
-  - draw only sets the specific bytes for color & characters
 - unit tests
     - create fixture for stubs
     - color input number bounds
