@@ -183,12 +183,8 @@ export class TermGrid implements ITermGrid {
   }
 
   public set6Bit(y: number, x: number, c: string, fg: number, bg: number): void {
-    this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
-    const cell = this.grid[y][x]
-    cell.c = c
-    cell.fg = colorMap6To8[fg]
-    cell.bg = colorMap6To8[bg]
+    this.set(y, x, c, colorMap6To8[fg], colorMap6To8[bg])
   }
 
   public text(y: number, x: number, text: string, fg: number, bg: number): void {
@@ -204,15 +200,8 @@ export class TermGrid implements ITermGrid {
   }
 
   public text6Bit(y: number, x: number, text: string, fg: number, bg: number): void {
-    this.checkBounds(y, x)
     checkColors6Bit(fg, bg)
-    assert(x + text.length <= this.width, 'x + text.length must be <= grid width')
-    let currX = x
-    for (let i = 0; i < text.length; i++) {
-      const c = text.charAt(i)
-      this.set6Bit(y, currX, c, fg, bg)
-      ++currX
-    }
+    this.text(y, x, text, colorMap6To8[fg], colorMap6To8[bg])
   }
 
   private checkBounds(y: number, x: number): void {
