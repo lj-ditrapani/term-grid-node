@@ -1,3 +1,8 @@
+- Make colors 6-bit only (0-63)
+  - delete 8-bit api; rename 6bit api to set & text
+- Use a Buffer?
+  - Pre-alocate to be max size based on given height/width
+  - use process.stdout to print buffer directly?
 - unit tests
     - create fixture for stubs
     - color input number bounds
