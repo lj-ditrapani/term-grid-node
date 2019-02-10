@@ -190,8 +190,8 @@ export class TermGrid implements ITermGrid {
   }
 
   private checkBounds(y: number, x: number): void {
-    assert(y >= 0 && y < this.height, 'y index must by >= 0 and < grid height')
-    assert(x >= 0 && x < this.width, 'x index must by >= 0 and < grid width')
+    assert(y >= 0 && y < this.height, 'y index must be >= 0 and < grid height')
+    assert(x >= 0 && x < this.width, 'x index must be >= 0 and < grid width')
   }
 
   private unsafeSet(y: number, x: number, c: string, fg8: number, bg8: number): void {
