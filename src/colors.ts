@@ -160,5 +160,5 @@ export const colorMap6To8 = [
   226,
   227,
   229,
-  231
+  231,
 ]

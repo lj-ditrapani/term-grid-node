@@ -84,7 +84,7 @@ export interface ITermGrid {
  * Create a TermGrid
  */
 export const makeTermGrid = (height: number, width: number): ITermGrid => {
-  if (process.stdin.setRawMode) {
+  if (process.stdin.isTTY) {
     return new TermGrid(height, width, process.stdin as ReadStream, new Printer())
   } else {
     throw new Error('process.stdin must be a tty for term-grid-ui to work')

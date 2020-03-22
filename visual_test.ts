@@ -7,7 +7,7 @@ const {
   arrowLeft,
   lightShadeBlock,
   mediumShadeBlock,
-  darkShadeBlock
+  darkShadeBlock,
 } = keyCodes
 
 const tg = makeTermGrid(10, 30)
@@ -25,9 +25,9 @@ tg.draw()
 
 let x = 0
 let y = 0
-tg.onInput(data => {
+tg.onInput((data) => {
   tg.set(5, 5, 'Y', darkCyan, mediumCyan)
-  const str = [...data].map(c => c.charCodeAt(0).toString(16)).join('')
+  const str = [...data].map((c) => c.charCodeAt(0).toString(16)).join('')
   tg.text(8, 0, '............', 0, 0)
   tg.text(8, 0, str, darkCyan, mediumCyan)
   if (data === 'j' || data === arrowDown) {

@@ -15,7 +15,7 @@ class Fixture {
     on: this.ttyOnEvent,
     resume: this.resume,
     setEncoding: this.setEncoding,
-    setRawMode: this.setRawMode
+    setRawMode: this.setRawMode,
   } as unknown) as ReadStream
 }
 
