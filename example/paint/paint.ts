@@ -18,7 +18,7 @@ const {
   c222,
   c333,
   c112,
-  c323
+  c323,
 } = colors
 
 class Paint {
@@ -41,7 +41,7 @@ class Paint {
     c330,
     c111,
     c222,
-    c333
+    c333,
   ]
   private canvas: number[][]
 

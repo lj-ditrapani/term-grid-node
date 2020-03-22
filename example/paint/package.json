@@ -4,10 +4,9 @@
   "description": "Example paint app using term-grid-ui",
   "scripts": {
     "start": "node -r ts-node/register paint.ts",
-    "fmt": "prettier --parser typescript --write \"*.ts\" \"src/**/*.ts\" \"test/**/*.ts\"",
-    "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
+    "fmt": "prettier --parser typescript --write \"*.ts\"",
     "tlint": "tslint --fix -c tslint.json '*.ts' 'src/**/*.ts' 'test/**/*.ts'",
-    "lint": "npm run tlint && npm run fmt && npm run fmtjs",
+    "lint": "npm run tlint && npm run fmt",
     "all": "npm run lint && npm start"
   },
   "nyc": {
@@ -33,22 +32,22 @@
   "repository": "https://github.com/lj-ditrapani/term-grid-node",
   "license": "ISC",
   "devDependencies": {
-    "@types/mocha": "^5.2.7",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
-    "source-map-support": "^0.5.13",
-    "tslint": "^5.19.0",
+    "@types/mocha": "^7.0.2",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.1",
+    "source-map-support": "^0.5.16",
+    "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.15.0"
+    "typedoc": "^0.17.3"
   },
   "files": [
     "lib/**/*"
   ],
   "dependencies": {
-    "@types/node": "^12.7.2",
+    "@types/node": "^13.9.3",
     "term-grid-ui": "^0.5.3",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
   }
 }
