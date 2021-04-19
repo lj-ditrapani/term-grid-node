@@ -458,10 +458,10 @@ describe('TermGrid', () => {
           grid.draw()
           expected = Buffer.from(
             '\u001B[?25l\u001b[0;0H' +
-            '\u001b[38;5;196m' + // fg red
-            '\u001b[48;5;016m' + // bg black
-            keyCodes.fullBlock +
-            '\u0000' + // char
+              '\u001b[38;5;196m' + // fg red
+              '\u001b[48;5;016m' + // bg black
+              keyCodes.fullBlock +
+              '\u0000' + // char
               '\n'
           )
           actual = this.print.getCall(0).args[0]
@@ -471,9 +471,9 @@ describe('TermGrid', () => {
           grid.draw()
           expected = Buffer.from(
             '\u001B[?25l\u001b[0;0H' +
-            '\u001b[38;5;196m' + // fg red
-            '\u001b[48;5;016m' + // bg black
-            'x\u0000\u0000\u0000' + // char
+              '\u001b[38;5;196m' + // fg red
+              '\u001b[48;5;016m' + // bg black
+              'x\u0000\u0000\u0000' + // char
               '\n'
           )
           actual = this.print.getCall(1).args[0]
