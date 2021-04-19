@@ -1,4 +1,4 @@
-import { colors, ITermGrid, keyCodes, makeTermGrid } from 'term-grid-ui'
+import { ITermGrid, colors, keyCodes, makeTermGrid } from 'term-grid-ui'
 const { arrowDown, arrowLeft, arrowRight, arrowUp, enter, esc } = keyCodes
 const {
   c000,
@@ -23,7 +23,7 @@ const {
 
 class Paint {
   private mode: 'draw' | 'select-paint' = 'draw'
-  private colorIndex: number = 0
+  private colorIndex = 0
   private penPosition: [number, number] = [0, 0]
   private colors: number[] = [
     c000,

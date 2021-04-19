@@ -1,7 +1,7 @@
-import { strict as assert } from 'assert'
 import * as sinon from 'sinon'
+import { Printer, TermGrid, colors, keyCodes } from '../src/index'
 import { ReadStream } from 'tty'
-import { colors, keyCodes, Printer, TermGrid } from '../src/index'
+import { strict as assert } from 'assert'
 
 // tslint:disable:no-object-literal-type-assertion max-classes-per-file
 class Fixture {
@@ -419,8 +419,6 @@ describe('TermGrid', () => {
       class Test extends Fixture {
         public test() {
           const grid = new TermGrid(2, 3, this.readStream, this.printer)
-          let expected
-          let actual
 
           grid.set(0, 0, 'a', colors.red, colors.black)
           grid.set(0, 1, 'b', colors.black, colors.red)
@@ -428,7 +426,7 @@ describe('TermGrid', () => {
           grid.set(1, 0, 'x', colors.blue, colors.black)
           grid.text(1, 1, 'yz', colors.black, colors.blue)
           grid.draw()
-          expected = Buffer.from(
+          const expected = Buffer.from(
             '\u001B[?25l\u001b[0;0H' +
               '\u001b[38;5;196m\u001b[48;5;016ma\u0000\u0000\u0000' +
               '\u001b[38;5;016m\u001b[48;5;196mb\u0000\u0000\u0000' +
@@ -439,7 +437,7 @@ describe('TermGrid', () => {
               '\u001b[38;5;016m\u001b[48;5;021mz\u0000\u0000\u0000' +
               '\n'
           )
-          actual = this.print.getCall(0).args[0]
+          const actual = this.print.getCall(0).args[0]
           assert.deepEqual(actual, expected)
         }
       }

@@ -1,8 +1,8 @@
-import { strict as assert } from 'assert'
-import { ReadStream } from 'tty'
 import { colorMap6To8, colors } from './colors'
-export { colors } from './colors'
 export { keyCodes } from './key_codes'
+import { ReadStream } from 'tty'
+export { colors } from './colors'
+import { strict as assert } from 'assert'
 
 /**
  * Represents the terminal as a 2D grid with 64 colors.
