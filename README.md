@@ -74,6 +74,11 @@ Develop
     npm run doc
 
 
+### View test coverage report ###
+
+    firefox coverage/lcov-report/index.html
+
+
 ### Publish ###
 
     npm login
