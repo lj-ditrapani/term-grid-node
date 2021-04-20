@@ -8,7 +8,7 @@
     "test": "jest --coverage",
     "lint": "eslint --fix *.js *.json 'src/**/*.ts' 'test/**/*.ts'",
     "tsc": "tsc",
-    "doc": "typedoc --excludePrivate --excludeNotExported --out docs/ src && touch docs/.nojekyll",
+    "doc": "typedoc --excludePrivate --out docs/ src && touch docs/.nojekyll",
     "visual-test": "ts-node visual_test.ts",
     "all": "npm run lint && tsc && npm test"
   },

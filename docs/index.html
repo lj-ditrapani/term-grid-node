@@ -4,16 +4,17 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>term-grid-ui</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for term-grid-ui">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -49,11 +50,6 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
 			<h1>term-grid-ui</h1>
 		</div>
 	</div>
@@ -70,27 +66,29 @@
 					<h2>npm package</h2>
 				</a>
 				<p><a href="https://www.npmjs.com/package/term-grid-ui">https://www.npmjs.com/package/term-grid-ui</a></p>
-				<pre><code>npm install --<span class="hljs-built_in">save</span> term-<span class="hljs-built_in">grid</span>-ui</code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> </span><span style="color: #001080">term</span><span style="color: #000000">-</span><span style="color: #001080">grid</span><span style="color: #000000">-</span><span style="color: #001080">ui</span>
+</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { colors, keyCodes, makeTermGrid } <span class="hljs-keyword">from</span> <span class="hljs-string">'term-grid-ui'</span>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">colors</span><span style="color: #000000">, </span><span style="color: #001080">keyCodes</span><span style="color: #000000">, </span><span style="color: #001080">makeTermGrid</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;term-grid-ui&#039;</span>
 
-<span class="hljs-keyword">const</span> tg = makeTermGrid(<span class="hljs-number">10</span>, <span class="hljs-number">40</span>)
-tg.clear()
-tg.set(<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-string">':'</span>, colors.black, colors.white)
-tg.draw()
-tg.onInput(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
-  <span class="hljs-keyword">switch</span> (data) {
-    <span class="hljs-keyword">case</span> keyCodes.enter:
-      tg.text(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-string">'Hello world!'</span>, colors.green, colors.black)
-      <span class="hljs-keyword">break</span>
-    <span class="hljs-keyword">case</span> <span class="hljs-string">'q'</span>:
-      tg.reset()
-      process.exit()
-  }
-  tg.draw()
-})</code></pre>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">tg</span><span style="color: #000000"> = </span><span style="color: #795E26">makeTermGrid</span><span style="color: #000000">(</span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #098658">40</span><span style="color: #000000">)</span>
+<span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">clear</span><span style="color: #000000">()</span>
+<span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(</span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">5</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;:&#039;</span><span style="color: #000000">, </span><span style="color: #001080">colors</span><span style="color: #000000">.</span><span style="color: #001080">black</span><span style="color: #000000">, </span><span style="color: #001080">colors</span><span style="color: #000000">.</span><span style="color: #001080">white</span><span style="color: #000000">)</span>
+<span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">draw</span><span style="color: #000000">()</span>
+<span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">onInput</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">switch</span><span style="color: #000000"> (</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">case</span><span style="color: #000000"> </span><span style="color: #001080">keyCodes</span><span style="color: #000000">.</span><span style="color: #001080">enter</span><span style="color: #000000">:</span>
+<span style="color: #000000">      </span><span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">text</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;Hello world!&#039;</span><span style="color: #000000">, </span><span style="color: #001080">colors</span><span style="color: #000000">.</span><span style="color: #001080">green</span><span style="color: #000000">, </span><span style="color: #001080">colors</span><span style="color: #000000">.</span><span style="color: #001080">black</span><span style="color: #000000">)</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">break</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">case</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;q&#039;</span><span style="color: #000000">:</span>
+<span style="color: #000000">      </span><span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">reset</span><span style="color: #000000">()</span>
+<span style="color: #000000">      </span><span style="color: #001080">process</span><span style="color: #000000">.</span><span style="color: #795E26">exit</span><span style="color: #000000">()</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #001080">tg</span><span style="color: #000000">.</span><span style="color: #795E26">draw</span><span style="color: #000000">()</span>
+<span style="color: #000000">})</span>
+</code></pre>
 				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
 					<h2>API Documentation</h2>
 				</a>
@@ -99,46 +97,53 @@ tg.onInput(<span class="hljs-function"><span class="hljs-params">data</span> =&g
 					<h2>Example</h2>
 				</a>
 				<p>To see an example cd to example/paint:</p>
-				<pre><code><span class="hljs-built_in">npm</span> install
-<span class="hljs-built_in">npm</span> start</code></pre><p>and read source in paint.ts for example usage.</p>
-				<p><img src="paint.png" alt="Paint Example App"></p>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span>
+<span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">start</span>
+</code></pre>
+				<p>and read source in paint.ts for example usage.</p>
+				<p><img src="paint.png" alt="Paint Example App">
+				<img src="luigi-paint.png" alt="Paint Example App"></p>
 				<a href="#develop" id="develop" style="color: inherit; text-decoration: none;">
 					<h2>Develop</h2>
 				</a>
 				<a href="#format-lint-build-test" id="format-lint-build-test" style="color: inherit; text-decoration: none;">
 					<h3>Format, lint, build, test</h3>
 				</a>
-				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> all</span></code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">all</span>
+</code></pre>
 				<a href="#visual-test" id="visual-test" style="color: inherit; text-decoration: none;">
 					<h3>Visual test</h3>
 				</a>
-				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> visual-test</span></code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">visual</span><span style="color: #000000">-</span><span style="color: #001080">test</span>
+</code></pre>
 				<a href="#generate-documentation" id="generate-documentation" style="color: inherit; text-decoration: none;">
 					<h3>Generate documentation</h3>
 				</a>
-				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> doc</span></code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">run</span><span style="color: #000000"> </span><span style="color: #001080">doc</span>
+</code></pre>
 				<a href="#publish" id="publish" style="color: inherit; text-decoration: none;">
 					<h3>Publish</h3>
 				</a>
-				<pre><code><span class="hljs-built_in">npm</span> login
-<span class="hljs-built_in">npm</span> version patch/minor/major
-<span class="hljs-built_in">npm</span> publish</code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">login</span>
+<span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">version</span><span style="color: #000000"> </span><span style="color: #001080">patch</span><span style="color: #000000">/</span><span style="color: #001080">minor</span><span style="color: #000000">/</span><span style="color: #001080">major</span>
+<span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">publish</span>
+</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_colors_.html">&quot;colors&quot;</a>
+						<a href="modules/colors.html">colors</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_index_.html">&quot;index&quot;</a>
+						<a href="modules/index.html">index</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_key_codes_.html">&quot;key_<wbr>codes&quot;</a>
+						<a href="modules/key_codes.html">key_<wbr>codes</a>
 					</li>
 				</ul>
 			</nav>
@@ -171,6 +176,5 @@ tg.onInput(<span class="hljs-function"><span class="hljs-params">data</span> =&g
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
