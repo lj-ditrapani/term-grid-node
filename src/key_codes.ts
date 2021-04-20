@@ -1,4 +1,5 @@
 export class KeyCodes {
+  // Keyboard characters
   public readonly esc = '\u001b'
   public readonly enter = '\u000d'
   public readonly arrowUp = '\u001b\u005b\u0041'
@@ -6,10 +7,19 @@ export class KeyCodes {
   public readonly arrowRight = '\u001b\u005b\u0043'
   public readonly arrowLeft = '\u001b\u005b\u0044'
 
+  // Box Drawing
   public readonly boxLightHori = '\u2500' // ─
   public readonly boxHeavyHori = '\u2501' // ━
   public readonly boxLightVert = '\u2502' // │
   public readonly boxHeavyVert = '\u2503' // ┃
+  public readonly boxLight3DashHori = '\u2504' // ┄
+  public readonly boxheavy3DashHori = '\u2505' // ┅
+  public readonly boxLight3DashVert = '\u2506' // ┆
+  public readonly boxheavy3DashVert = '\u2507' // ┇
+  public readonly boxLight4DashHori = '\u2508' // ┈
+  public readonly boxheavy4DashHori = '\u2509' // ┉
+  public readonly boxLight4DashVert = '\u250A' // ┊
+  public readonly boxheavy4DashVert = '\u250B' // ┋
   public readonly boxLightDownRight = '\u250C' // ┌
   public readonly boxHeavyDownRight = '\u250F' // ┏
   public readonly boxLightDownLeft = '\u2510' // ┐
@@ -18,10 +28,15 @@ export class KeyCodes {
   public readonly boxHeavyUpRight = '\u2517' // ┗
   public readonly boxLightUpLeft = '\u2518' // ┘
   public readonly boxHeavyUpLeft = '\u251B' // ┛
+  public readonly boxLight2DashHori = '\u254C' // ╌
+  public readonly boxHeavy2DashHori = '\u254D' // ╍
+  public readonly boxLight2DashVert = '\u254E' // ╎
+  public readonly boxHeavy2DashVert = '\u254F' // ╏
   public readonly boxSlash = '\u2571' // ╱
   public readonly boxBackSlash = '\u2572' // ╲
   public readonly boxX = '\u2573' // ╳
 
+  // Block Elements
   public readonly upper12Block = '\u2580' // ▀
   public readonly lower18Block = '\u2581' // ▁
   public readonly lower14Block = '\u2582' // ▂
