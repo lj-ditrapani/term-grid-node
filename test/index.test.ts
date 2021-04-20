@@ -1,16 +1,13 @@
-import * as sinon from 'sinon'
 import { Printer, TermGrid, colors, keyCodes } from '../src/index'
 import { ReadStream } from 'tty'
-import { strict as assert } from 'assert'
 
-// tslint:disable:no-object-literal-type-assertion max-classes-per-file
 class Fixture {
-  protected readonly print = sinon.stub()
+  protected readonly print = jest.fn()
   protected readonly printer = { print: this.print } as Printer
-  protected readonly setRawMode = sinon.stub()
-  protected readonly resume = sinon.stub()
-  protected readonly setEncoding = sinon.stub()
-  protected readonly ttyOnEvent = sinon.stub()
+  protected readonly setRawMode = jest.fn()
+  protected readonly resume = jest.fn()
+  protected readonly setEncoding = jest.fn()
+  protected readonly ttyOnEvent = jest.fn()
   protected readonly readStream = ({
     on: this.ttyOnEvent,
     resume: this.resume,
@@ -25,9 +22,9 @@ describe('TermGrid', () => {
       class Test extends Fixture {
         public test() {
           new TermGrid(3, 4, this.readStream, this.printer).clear()
-          sinon.assert.calledWith(this.setRawMode, true)
-          sinon.assert.called(this.resume)
-          sinon.assert.calledWith(this.setEncoding, 'utf8')
+          expect(this.setRawMode).toHaveBeenCalledWith(true)
+          expect(this.resume).toHaveBeenCalled()
+          expect(this.setEncoding).toHaveBeenCalledWith('utf8')
         }
       }
 
@@ -38,8 +35,7 @@ describe('TermGrid', () => {
       it('throws an error', () => {
         class Test extends Fixture {
           public test() {
-            assert.throws(
-              () => new TermGrid(0, 4, this.readStream, this.printer),
+            expect(() => new TermGrid(0, 4, this.readStream, this.printer)).toThrow(
               /Height must be positive/
             )
           }
@@ -53,8 +49,7 @@ describe('TermGrid', () => {
       it('throws an error', () => {
         class Test extends Fixture {
           public test() {
-            assert.throws(
-              () => new TermGrid(3, 0, this.readStream, this.printer),
+            expect(() => new TermGrid(3, 0, this.readStream, this.printer)).toThrow(
               /Width must be positive/
             )
           }
@@ -70,7 +65,7 @@ describe('TermGrid', () => {
       class Test extends Fixture {
         public test() {
           new TermGrid(3, 4, this.readStream, this.printer).clear()
-          sinon.assert.calledWith(this.print, '\u001b[2J')
+          expect(this.print).toHaveBeenCalledWith('\u001b[2J')
         }
       }
 
@@ -82,9 +77,9 @@ describe('TermGrid', () => {
     it('attacheds handler to tty on data events', () => {
       class Test extends Fixture {
         public test() {
-          const handler = sinon.stub()
+          const handler = jest.fn()
           new TermGrid(3, 4, this.readStream, this.printer).onInput(handler)
-          sinon.assert.calledWith(this.ttyOnEvent, 'data', handler)
+          expect(this.ttyOnEvent).toHaveBeenCalledWith('data', handler)
         }
       }
 
@@ -97,8 +92,8 @@ describe('TermGrid', () => {
       class Test extends Fixture {
         public test() {
           new TermGrid(3, 4, this.readStream, this.printer).reset()
-          sinon.assert.calledWith(this.setRawMode, false)
-          sinon.assert.calledWith(this.print, '\u001b[0m\u001B[?25h')
+          expect(this.setRawMode).toHaveBeenCalledWith(false)
+          expect(this.print).toHaveBeenCalledWith('\u001b[0m\u001B[?25h')
         }
       }
 
@@ -112,8 +107,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, 'xx', colors.red, colors.black),
+            expect(() => grid.set(1, 2, 'xx', colors.red, colors.black)).toThrow(
               /set takes a string of length one/
             )
           }
@@ -128,8 +122,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, '', colors.red, colors.black),
+            expect(() => grid.set(1, 2, '', colors.red, colors.black)).toThrow(
               /set takes a string of length one/
             )
           }
@@ -144,8 +137,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(-1, 2, 'x', colors.green, colors.black),
+            expect(() => grid.set(-1, 2, 'x', colors.green, colors.black)).toThrow(
               /y index must be >= 0 and < grid height/
             )
           }
@@ -160,8 +152,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(3, 2, 'x', colors.green, colors.black),
+            expect(() => grid.set(3, 2, 'x', colors.green, colors.black)).toThrow(
               /y index must be >= 0 and < grid height/
             )
           }
@@ -176,8 +167,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, -1, 'x', colors.green, colors.black),
+            expect(() => grid.set(1, -1, 'x', colors.green, colors.black)).toThrow(
               /x index must be >= 0 and < grid width/
             )
           }
@@ -192,8 +182,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 4, 'x', colors.green, colors.black),
+            expect(() => grid.set(1, 4, 'x', colors.green, colors.black)).toThrow(
               /x index must be >= 0 and < grid width/
             )
           }
@@ -208,8 +197,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, 'x', -1, colors.black),
+            expect(() => grid.set(1, 2, 'x', -1, colors.black)).toThrow(
               /6-bit foreground color fg must be in range \[0, 63\] inclusive/
             )
           }
@@ -224,8 +212,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, 'x', 64, colors.black),
+            expect(() => grid.set(1, 2, 'x', 64, colors.black)).toThrow(
               /6-bit foreground color fg must be in range \[0, 63\] inclusive/
             )
           }
@@ -240,8 +227,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, 'x', colors.green, -1),
+            expect(() => grid.set(1, 2, 'x', colors.green, -1)).toThrow(
               /6-bit background color bg must be in range \[0, 63\] inclusive/
             )
           }
@@ -256,8 +242,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.set(1, 2, 'x', colors.green, 64),
+            expect(() => grid.set(1, 2, 'x', colors.green, 64)).toThrow(
               /6-bit background color bg must be in range \[0, 63\] inclusive/
             )
           }
@@ -274,8 +259,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 2, 'xyz', colors.green, colors.black),
+            expect(() => grid.text(1, 2, 'xyz', colors.green, colors.black)).toThrow(
               /x \+ text.length must be <= grid width/
             )
           }
@@ -290,8 +274,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(-1, 2, 'x', colors.green, colors.black),
+            expect(() => grid.text(-1, 2, 'x', colors.green, colors.black)).toThrow(
               /y index must be >= 0 and < grid height/
             )
           }
@@ -306,8 +289,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(3, 2, 'x', colors.green, colors.black),
+            expect(() => grid.text(3, 2, 'x', colors.green, colors.black)).toThrow(
               /y index must be >= 0 and < grid height/
             )
           }
@@ -322,8 +304,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, -1, 'x', colors.green, colors.black),
+            expect(() => grid.text(1, -1, 'x', colors.green, colors.black)).toThrow(
               /x index must be >= 0 and < grid width/
             )
           }
@@ -338,8 +319,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 4, 'x', colors.green, colors.black),
+            expect(() => grid.text(1, 4, 'x', colors.green, colors.black)).toThrow(
               /x index must be >= 0 and < grid width/
             )
           }
@@ -354,8 +334,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 2, 'x', -1, colors.black),
+            expect(() => grid.text(1, 2, 'x', -1, colors.black)).toThrow(
               /6-bit foreground color fg must be in range \[0, 63\] inclusive/
             )
           }
@@ -370,8 +349,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 2, 'x', 64, colors.black),
+            expect(() => grid.text(1, 2, 'x', 64, colors.black)).toThrow(
               /6-bit foreground color fg must be in range \[0, 63\] inclusive/
             )
           }
@@ -386,8 +364,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 2, 'x', colors.green, -1),
+            expect(() => grid.text(1, 2, 'x', colors.green, -1)).toThrow(
               /6-bit background color bg must be in range \[0, 63\] inclusive/
             )
           }
@@ -402,8 +379,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
-            assert.throws(
-              () => grid.text(1, 2, 'x', colors.green, 64),
+            expect(() => grid.text(1, 2, 'x', colors.green, 64)).toThrow(
               /6-bit background color bg must be in range \[0, 63\] inclusive/
             )
           }
@@ -437,8 +413,7 @@ describe('TermGrid', () => {
               '\u001b[38;5;016m\u001b[48;5;021mz\u0000\u0000\u0000' +
               '\n'
           )
-          const actual = this.print.getCall(0).args[0]
-          assert.deepEqual(actual, expected)
+          expect(this.print.mock.calls[0][0]).toStrictEqual(expected)
         }
       }
 
@@ -450,7 +425,6 @@ describe('TermGrid', () => {
         public test() {
           const grid = new TermGrid(1, 1, this.readStream, this.printer)
           let expected
-          let actual
 
           grid.set(0, 0, keyCodes.fullBlock, colors.red, colors.black)
           grid.draw()
@@ -462,8 +436,7 @@ describe('TermGrid', () => {
               '\u0000' + // char
               '\n'
           )
-          actual = this.print.getCall(0).args[0]
-          assert.deepEqual(actual, expected)
+          expect(this.print.mock.calls[0][0]).toStrictEqual(expected)
 
           grid.set(0, 0, 'x', colors.red, colors.black)
           grid.draw()
@@ -474,10 +447,9 @@ describe('TermGrid', () => {
               'x\u0000\u0000\u0000' + // char
               '\n'
           )
-          actual = this.print.getCall(1).args[0]
-          assert.deepEqual(actual, expected)
+          expect(this.print.mock.calls[1][0]).toStrictEqual(expected)
 
-          sinon.assert.calledTwice(this.print)
+          expect(this.print).toHaveBeenCalled() // twice!
         }
       }
 
@@ -485,4 +457,3 @@ describe('TermGrid', () => {
     })
   })
 })
-// tslint:enable:no-object-literal-type-assertion max-classes-per-file
