@@ -449,11 +449,19 @@ describe('TermGrid', () => {
           )
           expect(this.print.mock.calls[1][0]).toStrictEqual(expected)
 
-          expect(this.print).toHaveBeenCalled() // twice!
+          expect(this.print.mock.calls.length).toBe(2)
         }
       }
 
       new Test().test()
     })
+  })
+})
+
+describe('Printer.print()', () => {
+  it('calls process.stdout.write()', () => {
+    const write = jest.spyOn(process.stdout, 'write')
+    new Printer().print('test string')
+    expect(write).toHaveBeenCalledWith('test string')
   })
 })
