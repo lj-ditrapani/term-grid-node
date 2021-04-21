@@ -107,7 +107,7 @@ export class TermGrid implements ITermGrid {
     private readonly height: number,
     private readonly width: number,
     private readonly tty: ReadStream,
-    private readonly printer: Printer
+    private readonly printer: Printer,
   ) {
     assert(this.height >= 1, 'Height must be positive.')
     assert(this.width >= 1, 'Width must be positive.')
@@ -118,7 +118,7 @@ export class TermGrid implements ITermGrid {
       .map(() =>
         Array(width)
           .fill(null)
-          .map(() => new Cell('.', fg, bg))
+          .map(() => new Cell('.', fg, bg)),
       )
     this.tty.setRawMode(true)
     this.tty.resume()
@@ -210,7 +210,7 @@ const checkColors = (fg: number, bg: number): void => {
 const checkColor = (color: number, desc: string, name: string): void => {
   assert(
     color <= 63 && color >= 0,
-    `6-bit ${desc} color ${name} must be in range [0, 63] inclusive`
+    `6-bit ${desc} color ${name} must be in range [0, 63] inclusive`,
   )
 }
 

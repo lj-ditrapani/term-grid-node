@@ -43,7 +43,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             expect(() => new TermGrid(0, 4, this.readStream, this.printer)).toThrow(
-              /Height must be positive/
+              /Height must be positive/,
             )
           }
         }
@@ -57,7 +57,7 @@ describe('TermGrid', () => {
         class Test extends Fixture {
           public test() {
             expect(() => new TermGrid(3, 0, this.readStream, this.printer)).toThrow(
-              /Width must be positive/
+              /Width must be positive/,
             )
           }
         }
@@ -115,7 +115,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, 'xx', colors.red, colors.black)).toThrow(
-              /set takes a string of length one/
+              /set takes a string of length one/,
             )
           }
         }
@@ -130,7 +130,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, '', colors.red, colors.black)).toThrow(
-              /set takes a string of length one/
+              /set takes a string of length one/,
             )
           }
         }
@@ -145,7 +145,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(-1, 2, 'x', colors.green, colors.black)).toThrow(
-              /y index must be >= 0 and < grid height/
+              /y index must be >= 0 and < grid height/,
             )
           }
         }
@@ -160,7 +160,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(3, 2, 'x', colors.green, colors.black)).toThrow(
-              /y index must be >= 0 and < grid height/
+              /y index must be >= 0 and < grid height/,
             )
           }
         }
@@ -175,7 +175,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, -1, 'x', colors.green, colors.black)).toThrow(
-              /x index must be >= 0 and < grid width/
+              /x index must be >= 0 and < grid width/,
             )
           }
         }
@@ -190,7 +190,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 4, 'x', colors.green, colors.black)).toThrow(
-              /x index must be >= 0 and < grid width/
+              /x index must be >= 0 and < grid width/,
             )
           }
         }
@@ -205,7 +205,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, 'x', -1, colors.black)).toThrow(
-              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -220,7 +220,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, 'x', 64, colors.black)).toThrow(
-              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -235,7 +235,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, 'x', colors.green, -1)).toThrow(
-              /6-bit background color bg must be in range \[0, 63\] inclusive/
+              /6-bit background color bg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -250,7 +250,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.set(1, 2, 'x', colors.green, 64)).toThrow(
-              /6-bit background color bg must be in range \[0, 63\] inclusive/
+              /6-bit background color bg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -267,7 +267,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 2, 'xyz', colors.green, colors.black)).toThrow(
-              /x \+ text.length must be <= grid width/
+              /x \+ text.length must be <= grid width/,
             )
           }
         }
@@ -282,7 +282,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(-1, 2, 'x', colors.green, colors.black)).toThrow(
-              /y index must be >= 0 and < grid height/
+              /y index must be >= 0 and < grid height/,
             )
           }
         }
@@ -297,7 +297,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(3, 2, 'x', colors.green, colors.black)).toThrow(
-              /y index must be >= 0 and < grid height/
+              /y index must be >= 0 and < grid height/,
             )
           }
         }
@@ -312,7 +312,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, -1, 'x', colors.green, colors.black)).toThrow(
-              /x index must be >= 0 and < grid width/
+              /x index must be >= 0 and < grid width/,
             )
           }
         }
@@ -327,7 +327,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 4, 'x', colors.green, colors.black)).toThrow(
-              /x index must be >= 0 and < grid width/
+              /x index must be >= 0 and < grid width/,
             )
           }
         }
@@ -342,7 +342,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 2, 'x', -1, colors.black)).toThrow(
-              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -357,7 +357,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 2, 'x', 64, colors.black)).toThrow(
-              /6-bit foreground color fg must be in range \[0, 63\] inclusive/
+              /6-bit foreground color fg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -372,7 +372,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 2, 'x', colors.green, -1)).toThrow(
-              /6-bit background color bg must be in range \[0, 63\] inclusive/
+              /6-bit background color bg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -387,7 +387,7 @@ describe('TermGrid', () => {
           public test() {
             const grid = new TermGrid(3, 4, this.readStream, this.printer)
             expect(() => grid.text(1, 2, 'x', colors.green, 64)).toThrow(
-              /6-bit background color bg must be in range \[0, 63\] inclusive/
+              /6-bit background color bg must be in range \[0, 63\] inclusive/,
             )
           }
         }
@@ -418,7 +418,7 @@ describe('TermGrid', () => {
               '\u001b[38;5;021m\u001b[48;5;016mx\u0000\u0000\u0000' +
               '\u001b[38;5;016m\u001b[48;5;021my\u0000\u0000\u0000' +
               '\u001b[38;5;016m\u001b[48;5;021mz\u0000\u0000\u0000' +
-              '\n'
+              '\n',
           )
           expect(this.print.mock.calls[0][0]).toStrictEqual(expected)
         }
@@ -441,7 +441,7 @@ describe('TermGrid', () => {
               '\u001b[48;5;016m' + // bg black
               blockElements.fullBlock +
               '\u0000' + // char
-              '\n'
+              '\n',
           )
           expect(this.print.mock.calls[0][0]).toStrictEqual(expected)
 
@@ -452,7 +452,7 @@ describe('TermGrid', () => {
               '\u001b[38;5;196m' + // fg red
               '\u001b[48;5;016m' + // bg black
               'x\u0000\u0000\u0000' + // char
-              '\n'
+              '\n',
           )
           expect(this.print.mock.calls[1][0]).toStrictEqual(expected)
 
