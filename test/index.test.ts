@@ -1,4 +1,11 @@
-import { Printer, TermGrid, colors, keyCodes } from '../src/index'
+import {
+  Printer,
+  TermGrid,
+  blockElements,
+  boxDrawing,
+  colors,
+  keyCodes,
+} from '../src/index'
 import { ReadStream } from 'tty'
 
 class Fixture {
@@ -426,13 +433,13 @@ describe('TermGrid', () => {
           const grid = new TermGrid(1, 1, this.readStream, this.printer)
           let expected
 
-          grid.set(0, 0, keyCodes.fullBlock, colors.red, colors.black)
+          grid.set(0, 0, blockElements.fullBlock, colors.red, colors.black)
           grid.draw()
           expected = Buffer.from(
             '\u001B[?25l\u001b[0;0H' +
               '\u001b[38;5;196m' + // fg red
               '\u001b[48;5;016m' + // bg black
-              keyCodes.fullBlock +
+              blockElements.fullBlock +
               '\u0000' + // char
               '\n'
           )
@@ -455,6 +462,18 @@ describe('TermGrid', () => {
 
       new Test().test()
     })
+  })
+})
+
+describe('boxDrawing', () => {
+  it('has box drawing characters', () => {
+    expect(boxDrawing.boxLightHori).toBe('\u2500')
+  })
+})
+
+describe('keyCodes', () => {
+  it('has keyboard character codes', () => {
+    expect(keyCodes.esc).toBe('\u001b')
   })
 })
 
