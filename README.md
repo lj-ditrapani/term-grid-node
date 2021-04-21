@@ -86,6 +86,8 @@ Develop
 
 ### Publish ###
 
-    npm login
+    rm -fr lib
+    npm run all
     npm version patch/minor/major
+    npm login
     npm publish
