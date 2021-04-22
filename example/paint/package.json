@@ -4,9 +4,7 @@
   "description": "Example paint app using term-grid-ui",
   "scripts": {
     "start": "node -r ts-node/register paint.ts",
-    "fmt": "prettier --parser typescript --write \"*.ts\"",
-    "tlint": "tslint --fix -c tslint.json '*.ts'",
-    "lint": "npm run tlint && npm run fmt",
+    "lint": "eslint --fix *.json *.ts",
     "all": "npm run lint && npm start"
   },
   "keywords": [
@@ -17,10 +15,13 @@
   "repository": "https://github.com/lj-ditrapani/term-grid-node",
   "license": "ISC",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.0.1",
     "source-map-support": "^0.5.16",
-    "tslint": "^6.1.0",
-    "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.20.35"
   },
   "dependencies": {
