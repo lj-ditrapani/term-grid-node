@@ -1,7 +1,7 @@
 /**
  * Keyboard characters
  **/
-class KeyCodes {
+export class KeyCodes {
   public readonly esc = '\u001b'
   public readonly enter = '\u000d'
   public readonly arrowUp = '\u001b\u005b\u0041'
@@ -10,7 +10,7 @@ class KeyCodes {
   public readonly arrowLeft = '\u001b\u005b\u0044'
 }
 
-class BoxDrawing {
+export class BoxDrawing {
   public readonly boxLightHori = '\u2500' // ─
   public readonly boxHeavyHori = '\u2501' // ━
   public readonly boxLightVert = '\u2502' // │
@@ -40,7 +40,7 @@ class BoxDrawing {
   public readonly boxX = '\u2573' // ╳
 }
 
-class BlockElements {
+export class BlockElements {
   public readonly upper12Block = '\u2580' // ▀
   public readonly lower18Block = '\u2581' // ▁
   public readonly lower14Block = '\u2582' // ▂
