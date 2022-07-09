@@ -52,8 +52,9 @@ To see an example cd to example/paint:
 
 and read source in paint.ts for example usage.
 
-![Paint Example App](paint.png)
+![Paint Example App](megaman-paint.png)
 ![Paint Example App](luigi-paint.png)
+![Paint Example App](house-paint.png)
 
 
 Develop
