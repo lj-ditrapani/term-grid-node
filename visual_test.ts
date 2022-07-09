@@ -1,14 +1,16 @@
-import { colors, keyCodes, makeTermGrid } from './lib/index'
+import { blockElements, colors, keyCodes, makeTermGrid } from './lib/index'
 const { darkBlue, white, darkCyan, mediumCyan, cyan } = colors
 const {
   arrowUp,
   arrowDown,
   arrowRight,
   arrowLeft,
+} = keyCodes
+const {
   lightShadeBlock,
   mediumShadeBlock,
   darkShadeBlock,
-} = keyCodes
+} = blockElements
 
 const tg = makeTermGrid(10, 30)
 
