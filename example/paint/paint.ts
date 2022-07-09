@@ -126,9 +126,8 @@ class Paint {
         break
       case ' ':
       case enter:
-        this.canvas[this.penPosition[0]][this.penPosition[1]] = this.colors[
-          this.colorIndex
-        ]
+        this.canvas[this.penPosition[0]][this.penPosition[1]] =
+          this.colors[this.colorIndex]
         break
       case 'q':
         this.tg.reset()
