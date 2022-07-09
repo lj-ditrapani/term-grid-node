@@ -60,6 +60,14 @@ and read source in paint.ts for example usage.
 Develop
 -------
 
+You'll need node.  I like to use nvm <https://github.com/nvm-sh/nvm>.
+
+
+### Install npm packages ###
+
+    npm install
+
+
 ### Format, lint, build, test ###
 
     npm run all
@@ -83,6 +91,14 @@ Develop
 ### View test coverage report ###
 
     firefox coverage/lcov-report/index.html
+
+
+### Update ###
+
+    npm audit fix
+    npm update
+    npm outdated
+    npm install <package>@<newver>
 
 
 ### Publish ###
