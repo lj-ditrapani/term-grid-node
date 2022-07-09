@@ -15,12 +15,12 @@ class Fixture {
   protected readonly resume = jest.fn()
   protected readonly setEncoding = jest.fn()
   protected readonly ttyOnEvent = jest.fn()
-  protected readonly readStream = ({
+  protected readonly readStream = {
     on: this.ttyOnEvent,
     resume: this.resume,
     setEncoding: this.setEncoding,
     setRawMode: this.setRawMode,
-  } as unknown) as ReadStream
+  } as unknown as ReadStream
 }
 
 describe('TermGrid', () => {
