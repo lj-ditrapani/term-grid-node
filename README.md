@@ -100,6 +100,8 @@ You'll need node.  I like to use nvm <https://github.com/nvm-sh/nvm>.
     npm outdated
     npm install <package>@<newver>
 
+Don't forget to update the example apps!
+
 
 ### Publish ###
 
