@@ -1,18 +1,12 @@
 {
+  "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
   "compilerOptions": {
+    "noUncheckedIndexedAccess": false,
     "declaration": true,
-    "module": "CommonJS",
-    "target": "es2017",
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "removeComments": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "sourceMap": true,
-    "outDir": "./lib",
+    "outDir": "lib",
     "newLine": "lf"
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"]
 }

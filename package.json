@@ -2,15 +2,18 @@
   "name": "term-grid-ui",
   "version": "0.7.0",
   "description": "Simple 2D color character grid abstraction for terminal apps",
+  "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --coverage",
-    "lint": "eslint --fix *.js *.json 'src/**/*.ts' 'test/**/*.ts'",
+    "fmt": "prettier --write '*.yaml' '*.json'",
+    "eslint": "eslint --fix *.ts 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "npm run fmt && npm run eslint",
     "ncu": "ncu -u && rm -fr node_modules package-lock.json && npm install",
     "tsc": "tsc",
     "doc": "typedoc --excludePrivate --out docs/ src && touch docs/.nojekyll",
-    "visual-test": "ts-node visual_test.ts",
+    "visual-test": "ts-node-esm visual_test.ts",
     "all": "npm run lint && tsc && npm test"
   },
   "keywords": [
@@ -21,6 +24,7 @@
   "repository": "https://github.com/lj-ditrapani/term-grid-node",
   "license": "ISC",
   "devDependencies": {
+    "@tsconfig/node18-strictest-esm": "^1.0.1",
     "@types/jest": "^29.2.3",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
