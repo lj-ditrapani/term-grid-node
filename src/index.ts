@@ -78,6 +78,28 @@ export interface ITermGrid {
    *           Must be in range [0-63] inclusive.
    */
   text(y: number, x: number, text: string, fg: number, bg: number): void
+
+  /**
+   * Set the foreground color of a cell in the grid.
+   * You must call draw() to see the change in the terminal.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param fg 6-bit RGB foreground color to set for the cell.
+   *           Must be in range [0-63] inclusive.
+   */
+  fg(y: number, x: number, fg: number): void
+
+  /**
+   * Set the background color of a cell in the grid.
+   * You must call draw() to see the change in the terminal.
+   *
+   * @param y 0-based row index into grid
+   * @param x 0-based column index into grid
+   * @param bg 6-bit RGB background color to set for the cell.
+   *           Must be in range [0-63] inclusive.
+   */
+  bg(y: number, x: number, bg: number): void
 }
 
 /**
@@ -187,6 +209,20 @@ export class TermGrid implements ITermGrid {
       this.unsafeSet(y, currX, c, fg8Bit, bg8Bit)
       ++currX
     }
+  }
+
+  fg(y: number, x: number, fg: number): void {
+    this.checkBounds(y, x)
+    checkColor(fg, 'foreground', 'fg')
+    const cell = this.grid[y][x]
+    cell.fg = colorMap6To8[fg]
+  }
+
+  bg(y: number, x: number, bg: number): void {
+    this.checkBounds(y, x)
+    checkColor(bg, 'background', 'bg')
+    const cell = this.grid[y][x]
+    cell.bg = colorMap6To8[bg]
   }
 
   private checkBounds(y: number, x: number): void {

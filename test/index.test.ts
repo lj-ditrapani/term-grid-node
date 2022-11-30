@@ -403,11 +403,13 @@ describe('TermGrid', () => {
         public test() {
           const grid = new TermGrid(2, 3, this.readStream, this.printer)
 
-          grid.set(0, 0, 'a', colors.red, colors.black)
+          grid.set(0, 0, 'a', colors.purple, colors.purple)
           grid.set(0, 1, 'b', colors.black, colors.red)
           grid.set(0, 2, 'c', colors.black, colors.red)
           grid.set(1, 0, 'x', colors.blue, colors.black)
           grid.text(1, 1, 'yz', colors.black, colors.blue)
+          grid.fg(0, 0, colors.red)
+          grid.bg(0, 0, colors.black)
           grid.draw()
           const expected = Buffer.from(
             '\u001B[?25l\u001b[0;0H' +
