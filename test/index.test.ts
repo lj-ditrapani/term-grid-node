@@ -6,7 +6,7 @@ import {
   colors,
   keyCodes,
 } from '../src/index'
-import { ReadStream } from 'tty'
+import type { ReadStream } from 'tty'
 
 class Fixture {
   protected readonly print = jest.fn()

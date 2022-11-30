@@ -1,6 +1,6 @@
 import { colorMap6To8, colors } from './colors'
 export { blockElements, boxDrawing, keyCodes } from './character_codes'
-import { ReadStream } from 'tty'
+import type { ReadStream } from 'tty'
 export { colors } from './colors'
 import { strict as assert } from 'assert'
 
