@@ -93,12 +93,9 @@ You'll need node.  I like to use nvm <https://github.com/nvm-sh/nvm>.
     firefox coverage/lcov-report/index.html
 
 
-### Update ###
+### Update dependencies ###
 
-    npm audit fix
-    npm update
-    npm outdated
-    npm install <package>@<newver>
+    npm run ncu
 
 Don't forget to update the example apps!
 
